@@ -33,97 +33,91 @@
 \section{Introduction}
 
 \subsection{Purpose}
-The \textbf{Students\&Companies (S\&C)} platform is designed to address the challenges of matching university students with companies offering internships. These challenges include difficulties for students in identifying suitable internships aligned with their skills and career aspirations, and for companies in efficiently finding qualified candidates for their positions.
+The \textbf{Students\&Companies (S\&C)} platform aims to simplify the process of connecting university students with companies offering internships. For students, finding internships that match their skills and career goals can often be challenging, while companies may struggle to identify candidates with the right qualifications.
 
-The platform enables students to search for internships, receive personalized recommendations, and manage their applications. For companies, it provides tools to advertise internships, review candidate CVs, and manage the interview and selection process. By leveraging recommendation mechanisms and supporting the selection process, the platform ensures an efficient and mutually beneficial experience for both students and companies.
+This platform provides students with tools to search for internships, receive personalized recommendations, and manage their applications. At the same time, companies can use it to advertise internships, review student CVs, and organize interviews efficiently. By incorporating advanced recommendation mechanisms, the platform creates a streamlined and mutually beneficial experience for both parties.
 
 \subsubsection{Goals}
+The goals of the S\&C platform are as follows:
 \begin{itemize}
-    \item \textbf{[G1]} The platform should facilitate the matchmaking process between university students and companies offering internships.
-    \item \textbf{[G2]} The platform should enable companies to search for and evaluate student profiles that meet their internship requirements.
-    \item \textbf{[G3]} The platform should allow students to search for internships aligned with their skills, experiences, and career goals.
-    \item \textbf{[G4]} The platform should support companies in managing the internship selection process, including interviews.
+    \item \textbf{[G1]} Facilitate the matching process between students and companies offering internships.
+    \item \textbf{[G2]} Enable companies to find and evaluate student profiles that meet their internship requirements.
+    \item \textbf{[G3]} Provide students with an easy way to find internships aligned with their skills and goals.
+    \item \textbf{[G4]} Support companies during the selection process, including interview management.
+    \item \textbf{[G5]} Gather feedback from students and companies to improve the recommendation system and internship quality.
 \end{itemize}
 
 \subsection{Scope}
-The S\&C platform is intended for three main stakeholders: students, companies. 
+The S\&C platform is designed for two main types of users: students and companies. 
+
 \begin{itemize}
-    \item \textbf{Students}: Can create and upload CVs, search for internships, receive recommendations, and manage their application and interview processes.
-    \item \textbf{Companies}: Can advertise internship opportunities, review student applications, conduct interviews, and finalize selections.
+    \item \textbf{Students}: Students can create and upload their CVs, search for internships, receive personalized recommendations, and track their application progress.
+    \item \textbf{Companies}: Companies can advertise internships, search for and evaluate student profiles, schedule interviews, and manage the selection process.
 \end{itemize}
-The platform is scalable and can accommodate a wide range of internships and users, including undergraduate and postgraduate students, small businesses, and large corporations.
-The platform also collects feedback from both students and companies, which is used to improve the recommendation mechanisms and provide insights into the effectiveness of internships.
+
+Additionally, the platform gathers feedback from both students and companies. This feedback is used to enhance the recommendation system and provide insights into the effectiveness of internships, ensuring continuous improvement of the platform.
 
 \subsubsection{World Phenomena}
 \begin{itemize}
-    \item \textbf{[WP1]} Students prepare their CVs
-    \item \textbf{[WP2]} Students upload their CVs.
-    \item \textbf{[WP3]} Companies define internship projects and specify their terms.
+    \item \textbf{[WP1]} Students prepare their CVs.
+    \item \textbf{[WP2]} Students upload their CVs to the platform.
+    \item \textbf{[WP3]} Companies define internship projects and specify their terms, such as tasks, benefits, and eligibility criteria.
 \end{itemize}
 
 \subsubsection{Shared Phenomena}
 \begin{itemize}
-    \item \textbf{[SP1]} Students search for internships on the platform. \textbf{[WC]}
-    \item \textbf{[SP2]} Companies advertise internships on the platform. \textbf{[WC]}
-    \item \textbf{[SP3]} The system informs students about internships that match their profiles. \textbf{[MC]}
-    \item \textbf{[SP4]} The system informs companies of student profiles matching their internship requirements. \textbf{[MC]}
-    \item \textbf{[SP5]} The system facilitates communication between students and companies. \textbf{[MC]}
-    \item \textbf{[SP6]} The platform supports the scheduling and management of interviews. \textbf{[MC]}
-    \item \textbf{[SP7]} The system notifies companies when students matching their requirements become available. \textbf{[MC]}
-    \item \textbf{[SP8]} When suitable recommendations are identified and accepted by both parties, a contact is established. \textbf{[MC]}
-    \item \textbf{[SP9]} The company selects a student from the list of students compatible with the internship offer. \textbf{[WC]}
-    \item \textbf{[SP10]} Users provide feedback. \textbf{[WC]}
-    \item \textbf{[SP11]} Companies advertise their internships on the platform. \textbf{[WC]}
-    \item \textbf{[SP12]} Students upload their CVs to the platform. \textbf{[WC]}
-    \item \textbf{[SP13]} Companies conduct interviews to assess candidates for internships. \textbf{[WC]}
+    \item \textbf{[SP1]} Students search for internships using the platform.
+    \item \textbf{[SP2]} Companies advertise internships on the platform.
+    \item \textbf{[SP3]} The platform notifies students about internships that match their profiles.
+    \item \textbf{[SP4]} The platform informs companies about student profiles that match their requirements.
+    \item \textbf{[SP5]} The platform facilitates communication between students and companies.
+    \item \textbf{[SP6]} The platform supports the scheduling and management of interviews.
+    \item \textbf{[SP7]} Feedback from students and companies is collected and analyzed to improve the system.
 \end{itemize}
-
 
 \subsection{Definitions, Acronyms, and Abbreviations}
 \subsubsection{Definitions}
 \begin{itemize}
-    \item \textbf{CV Curriculum Vitae}: Document detailing a student's skills, experiences, and educational background.
-    \item \textbf{Internship}: Temporary professional experience provided by a company to a student, typically aligned with their field of study.
-    \item \textbf{Recommendation System}: Mechanism for suggesting matches between students and companies based on complex mechanism, like keyword searching and statistical analysis.
+    \item \textbf{Curriculum Vitae (CV)}: A document detailing a student's skills, experiences, and educational background.
+    \item \textbf{Internship}: A temporary professional opportunity provided by a company to a student, typically aligned with their academic field.
+    \item \textbf{Recommendation System}: A feature of the platform that suggests internships to students and candidates to companies based on advanced matching algorithms.
 \end{itemize}
 
 \subsubsection{Acronyms}
 \begin{itemize}
-    \item \textbf{S\&C}: Students\&Companies.
+    \item \textbf{S\&C}: Students\&Companies platform.
     \item \textbf{CV}: Curriculum Vitae.
-    \item \textbf{UI}: User Interface.
 \end{itemize}
 
 \subsubsection{Abbreviations}
 \begin{itemize}
     \item \textbf{G*}: Goals outlined in the Purpose section.
-    \item \textbf{WP*}: World phenomena describing activities by individual stakeholders.
-    \item \textbf{SP*}: Shared phenomena describing system-mediated interactions.
+    \item \textbf{WP*}: World phenomena describing actions by individual stakeholders.
+    \item \textbf{SP*}: Shared phenomena describing interactions mediated by the system.
     \item \textbf{R*}: Functional requirements.
     \item \textbf{UC*}: Use cases.
 \end{itemize}
 
 \subsection{Revision History}
 \begin{itemize}
-    \item Version 1.0 () %TODO: Inserire la data di completamento
+    \item Version 1.0: Initial draft of the document.
 \end{itemize}
 
 \subsection{Reference Documents}
 \begin{itemize}
-    \item Project Specification Document provided by the course professors.
-    \item Course slide on WeBeep
-    \item IEEE Standards for Requirements Specifications.
+    \item Project Specification Document provided by the course instructors.
+    \item Course slides available on the university platform.
+    \item IEEE Standards for Software Requirements Specifications.
 \end{itemize}
 
 \subsection{Document Structure}
-This document is structured as follows:
+The remainder of this document is organized as follows:
 \begin{itemize}
-    \item \textbf{Section 1 - Introduction}: Describes the project's purpose, goals, scope, and related definitions.
-    \item \textbf{Section 2 - Overall Description}: Provides an overview of the system, including scenarios, domain models, and functionalities.
-    \item \textbf{Section 3 - Specific Requirements}: Provides details on the functional and non-functional requirements of the system.
-    \item \textbf{Section 4 - Formal Analysis}: Includes Alloy-based formalization of world phenomena.
-    \item \textbf{Section 5 - Effort Spent}: Summarizes the effort distribution among team members.
-    \item \textbf{References}: Lists reference documents and resources used.
+    \item \textbf{Section 1 - Introduction}: Covers the purpose, goals, scope, and definitions of the project.
+    \item \textbf{Section 2 - Overall Description}: Details scenarios, product functions, and system behavior.
+    \item \textbf{Section 3 - Specific Requirements}: Defines the functional and non-functional requirements of the platform.
+    \item \textbf{Section 4 - Formal Analysis}: Explores formal specifications of the system.
+    \item \textbf{Section 5 - Effort Spent}: Summarizes contributions by the project team members.
 \end{itemize}
 
 \newpage
@@ -135,48 +129,47 @@ This document is structured as follows:
 \subsubsection{Scenarios}
 
 \textbf{A Company Advertises an Internship} \\
-Company A, which is looking to hire interns, logs into the Students\&Companies (S\&C) platform using its credentials. Once logged in, the company accesses the section to "Create a New Internship." Here, Company A carefully fills out a form detailing the internship project, including the application domain, tasks to be performed, and any relevant technologies that will be used. The company also specifies the terms of the internship, such as whether it is paid, and outlines additional benefits like training, mentorship, or certifications. After reviewing the information, Company A publishes the internship, making it visible to all students on the platform who may be interested.
+A company looking to hire interns accesses the Students\&Companies (S\&C) platform by logging in with its credentials. Once logged in, the company navigates to the section for creating a new internship. Here, it fills out a detailed form specifying the project domain, tasks to be carried out, and any relevant technologies that might be used. The company also defines the terms of the internship, such as whether it is paid, and highlights additional benefits like training, mentorship, or certifications. After a final review, the internship is published, making it visible to students browsing the platform.
 
 \vspace{0.5cm}
 
 \textbf{A Student Publishes Their CV} \\
-Student B, who is seeking an internship, begins by preparing a CV that highlights their skills, experiences, and academic achievements. If they don’t already have a CV, they create one specifically for the platform. After ensuring their CV is complete and accurate, Student B logs into the S\&C platform using their credentials. Once logged in, they navigate to the section for uploading a CV, submit the document, and make it available for companies to view. This step ensures that their profile is visible to potential employers on the platform.
+A student who is seeking internship opportunities starts by preparing a CV that outlines their skills, experiences, and educational background. If the CV is not already prepared, the student creates one specifically for this purpose. After ensuring the CV is complete and accurate, the student logs into the S\&C platform and uploads the document via the dedicated section. Once uploaded, the CV becomes available for companies to review, increasing the student’s visibility to potential employers. %RIVEDERE SEQUENCE DIAGRAM
 
 \vspace{0.5cm}
 
 \textbf{The Recommendation System Notifies a Student} \\
-Student D, who has uploaded their CV to the platform, receives a notification from the S\&C recommendation system. The system, analyzing the student's CV and preferences, identifies that a new internship offered by Company B matches their profile. The notification contains details about the internship, including the project, tasks, and terms. Student D reviews the information and decides to apply for the internship, using the platform to submit their application.
+When a student uploads their CV to the platform, the recommendation system analyzes it, taking into account their skills, experiences, and preferences. If an internship matching the student’s profile becomes available or is uploaded, the system sends a notification with details about the position, such as tasks, requirements, and terms. The student can then decide whether to apply directly through the platform. %RIFAI SEQUENCE DIAGRAM  
 
 \vspace{0.5cm}
 
 \textbf{The Recommendation System Notifies a Company} \\
-Company E, which has posted multiple internships on the S\&C platform, receives a notification from the recommendation system. The system identifies that Student F, who recently uploaded their CV, matches the criteria set for one of the internships. The company reviews the student's profile and decides to contact them through the platform to discuss potential collaboration.
+Similarly, when a student’s profile matches the requirements of a company’s internship offer, the recommendation system alerts the company. The notification includes key details about the student, such as their skills and experiences. The company can review the CV and choose to contact the student to discuss the opportunity further.
 
 \vspace{0.5cm}
 
 \textbf{A Contact is Established Between a Student and a Company} \\
-Student G and Company H, after being matched through the recommendation system, both express interest in proceeding with the opportunity. The S\&C platform facilitates a formal contact between the two parties, enabling them to communicate directly. This marks the beginning of the selection process.
+Once a student and a company express mutual interest in an internship opportunity, the platform facilitates the establishment of formal contact between the two parties. This marks the beginning of the selection process, where details about the internship and the next steps are clarified.
 
 \vspace{0.5cm}
 
 \textbf{A Company Conducts an Interview} \\
-Company I, having reviewed Student J’s CV and established contact through the platform, schedules an interview to evaluate their suitability for the internship. The interview is conducted through the S\&C platform and may include a structured questionnaire prepared by the company. During the session, Student J answers questions about their experiences, skills, and motivations. The company uses the responses to assess whether the student fits the requirements of the internship project.
+After establishing contact, the company may decide to interview the student to assess their fit for the role. Using the platform’s tools, the company schedules an interview, which may include a structured questionnaire. During the interview, the student provides responses about their skills, experiences, and motivations. The company evaluates this information to determine whether the student aligns with the internship’s requirements.
 
 \vspace{0.5cm}
 
 \textbf{A Student Applies Proactively to an Internship} \\
-Student K, who prefers to take initiative, logs into the S\&C platform to browse the list of internships. After filtering opportunities based on their skills and interests, they apply to an internship offered by Company L. The application process involves uploading their CV, attaching relevant documents if necessary, and submitting the application directly through the platform. Student K eagerly awaits a response from the company.
+A student interested in actively exploring internship opportunities logs into the platform and browses the list of available offers. Using filters to refine the search by domain, technologies, or tasks, the student identifies a suitable internship. They then apply by submitting their CV and any additional documents required. Once the application is submitted, the student waits for a response from the company.
 
 \vspace{0.5cm}
 
 \textbf{A Company Evaluates Candidates} \\
-Company M, after receiving multiple applications for an internship, reviews the submitted CVs through the S\&C platform. Using filtering tools provided by the platform, the company shortlists candidates whose skills and experiences match the requirements of the internship. They then proceed to schedule interviews with the shortlisted students.
+After receiving multiple applications for an internship, a company uses the platform to review the CVs of interested candidates. By applying filters and criteria, the company shortlists students whose profiles best match the role. The shortlisted candidates are then invited to interviews to further evaluate their suitability.
 
 \vspace{0.5cm}
 
 \textbf{A Student Joins an Internship} \\
-After successfully completing the interview process with Company N, Student O receives an offer for the internship through the platform. The platform notifies the student of their acceptance and provides details about the next steps. Student O confirms their acceptance, and the internship officially begins.
-
+Once the interview process is completed, a company offers the internship to the selected student through the platform. The student receives a notification about the offer and can confirm their acceptance. Upon acceptance, the internship officially begins, and the platform updates the application status accordingly.
 
 \newpage
 
@@ -191,25 +184,23 @@ After successfully completing the interview process with Company N, Student O re
 
 \vspace{3cm}
 
-In Figure~\ref{fig:domain_class_diagram}, the domain class diagram models the key entities and their relationships in the \textbf{Students\&Companies (S\&C)} platform. This platform facilitates the internship matching process by connecting students and companies, managing their interactions from application to selection. The diagram captures the roles of students, companies, and the system components in achieving these objectives.
-The \textbf{Student} class represents users seeking internships. Each student can create multiple \textbf{Applications} for different internships offered by companies. The \textbf{Company} class represents organizations advertising internships, which are defined through the composition of \textbf{Project} and \textbf{Term} components. These define the domain, tasks, and conditions of the internship, such as compensation and benefits.
-The \textbf{RecommendationSystem} class facilitates matching by analyzing student profiles and internship requirements. Notifications are sent to students and companies to inform them about matches or updates via the \textbf{Notification} class. Once a recommendation is accepted, a \textbf{Contact} is established between the student and the company, which leads to the \textbf{Interview} process for final evaluation.
-The \textbf{Application} class tracks the submission and status of internship applications, while the \textbf{Interview} class manages scheduled sessions between students and companies.
+The domain class diagram shown in Figure~\ref{fig:domain_class_diagram} illustrates the key entities and relationships in the S\&C platform. The platform enables seamless interaction between students and companies throughout the internship process, from application to selection.
 
-\paragraph{Details of the Classes and Relationships}
+\paragraph{Key Entities and Relationships:}
 \begin{itemize}
-    \item \textbf{Student}: Represents users looking for internships. Each student has a unique ID, name, email, CV, and a set of skills and preferences. Students can submit applications, receive notifications, and interact with the recommendation system.
-    \item \textbf{Company}: Represents organizations offering internships. Companies can advertise internships, receive notifications about suitable candidates, and interact with students after establishing a contact.
-    \item \textbf{Internship}: Represents internship opportunities advertised by companies. Each internship is defined by a project and its associated terms.
-    \item \textbf{Project}: Describes the domain, tasks, and technologies related to an internship.
-    \item \textbf{Term}: Defines the terms and conditions of the internship, including compensation and benefits.
-    \item \textbf{RecommendationSystem}: Facilitates the matching process by generating recommendations for students and companies.
-    \item \textbf{Notification}: Represents updates or messages sent to students and companies about matches or system events.
-    \item \textbf{Application}: Tracks each student's application to internships, including its status and submission date.
-    \item \textbf{Contact}: Represents the established link between a student and a company after a recommendation is accepted.
-    \item \textbf{Interview}: Manages the scheduling and details of interviews between students and companies.
+    \item \textbf{Student}: Represents users seeking internships. Students can upload CVs, search for internships, and interact with companies. Each student profile includes unique attributes such as skills, preferences, and contact information.
+    \item \textbf{Company}: Represents organizations offering internships. Companies can advertise roles, review applications, and manage interviews through the platform. Each company profile includes details about its internship offerings.
+    \item \textbf{Internship}: Describes the specific roles offered by companies, including tasks, required skills, and terms of the position.
+    \item \textbf{Project}: Specifies the technical and functional details of an internship, including technologies and domains.
+    \item \textbf{RecommendationSystem}: Facilitates intelligent matching between students and internships by analyzing profiles and requirements.
+    \item \textbf{Notification}: Handles alerts sent to both students and companies, informing them about matches, updates, and other events.
+    \item \textbf{Application}: Tracks each student’s application to an internship, including its status (e.g., submitted, under review, accepted).
+    \item \textbf{Contact}: Represents the established connection between a student and a company once a mutual interest is confirmed.
+    \item \textbf{Interview}: Manages the scheduling and execution of interviews, including sharing structured questionnaires or other resources.
 \end{itemize}
-The diagram represents the key functionality of the platform, ensuring all interactions and relationships between students, companies, and the system components are captured.
+
+The diagram emphasizes how the system integrates various processes to support students and companies effectively, ensuring a structured and transparent internship application journey.
+
 
 \newpage
 
@@ -557,69 +548,260 @@ A company is a user that advertises internships on the platform. Companies can c
             \label{fig:modify_internship_sequence_diagram}
         \end{figure}
 
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Modify internship \\
+                \hline
+                \textbf{Actors}
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & Company wants to modify its internship advertise. \\
+                \hline
+                \textbf{Event Flow}
+                & 1 - Company choose the advertise to modify from the list of the company's advertises.\\ %RISCRIVI MEGLIO
+                & 2 - Company gets the details of the chosen advertise.\\
+                & 3 - Company modifies the details of the chosen advertise. \\
+                & 4 - Company sends the modified advertise back to S\&C. \\
+                \hline
+                \textbf{Exit Condition}
+                & Modified internship advertise is published. \\
+                \hline
+                \textbf{Exception}
+                & Internship details not available. \\
+                \hline
+            \end{longtable}
+        \end{center}
+
     \newpage
         
     \textbf{[UC7] - Delete internship}
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramDeleteInternship_v_1_0.png}
-            \caption{Log-in}
+            \caption{Delete internship}
             \label{fig:delete_internship_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Delete internship \\
+                \hline
+                \textbf{Actors}
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & Company wants to delete its internship advertise. \\
+                \hline
+                \textbf{Event Flow}
+                & 1 - Company choose the advertise to modify from the list of the company's advertises.\\ %RISCRIVI MEGLIO
+                & 2 - Company asks S\&C to delete the advertise.\\
+                \hline
+                \textbf{Exit Condition}
+                & Internship advertise successfully deleted. \\
+                \hline
+                \textbf{Exception}
+                & Internship advertise does not exist. \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC8] - Search internship}
+    
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSearchInternship_v_1_0.png}
-            \caption{Log-in}
+            \caption{Search internship}
             \label{fig:search_internship_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Search internship \\
+                \hline
+                \textbf{Actors}
+                & Student \\
+                \hline
+                \textbf{Entry Condition}
+                & Student wants to search for internship advertise. \\
+                \hline
+                \textbf{Event Flow}
+                & 1 - Student sets the search filters.\\ %RISCRIVI MEGLIO
+                & 2 - Student asks S\&C for advertises which satisfy the filters.\\
+                \hline
+                \textbf{Exit Condition}
+                & S\&C sends the student the list of advertises. \\
+                \hline
+                \textbf{Exception}
+                & No exception \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC9] - Recommendation process}
+    
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.6]{sequence_diagrams/SequenceDiagramRecommendationProcess_v_1_0.png}
-            \caption{Log-in}
+            \caption{Recommendation process}
             \label{fig:recommendation_process_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Recommendation process \\
+                \hline
+                \textbf{Actors}
+                & Student \\
+                & Recommendation System \\
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & New feedbacks are collected. \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                \hline
+                \textbf{Event Flow}
+                & 1 - Recommendation System asks for students and companies feedback. \\ 
+                & 2 - S\&C returns the feedback. \\
+                & 3 - Recommendation System searches for possible matches between a student and an internship. \\
+                & 4 - If a match is found the recommendation system asks for company and student information. \\
+                \hline
+                \textbf{Exit Condition}
+                & Recommendation notifies about the match it found both the company and the student. \\
+                \hline
+                \textbf{Exception}
+                & No exception. \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC10] - Submit application}
+    
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSubmitApplication_v_1_0.png}
-            \caption{Log-in}
+            \caption{Submit application}
             \label{fig:submit_application_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Submit application \\
+                \hline
+                \textbf{Actors}
+                & Student \\
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & Student finds an internship he wants to apply to \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                \hline
+                \textbf{Event Flow}
+                & 1 - Student asks for internship details. \\ 
+                & 2 - Student writes the application. \\
+                & 3 - Student submits the application to the company through S\&C. \\
+                \hline
+                \textbf{Exit Condition}
+                & Company receives the application from the student. \\
+                \hline
+                \textbf{Exception}
+                & No exception. \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC11] - Assess application}
+    
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceAssessApplication_v_1_0.png}
-            \caption{Log-in}
+            \caption{Assess application}
             \label{fig:assess_application_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Assess application \\
+                \hline
+                \textbf{Actors}
+                & Student \\
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & Company receives an application from a student. \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                \hline
+                \textbf{Event Flow}
+                & 1 - Company writes the response to the student. \\ 
+                & 2 - Company sends the response through S\&C. \\
+                \hline
+                \textbf{Exit Condition}
+                & Student receives the answer to his application. \\
+                \hline
+                \textbf{Exception}
+                & No exception. \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC12] - Collect feedback}
+    
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramCollectFeedback_v_1_0.png}
-            \caption{Log-in}
+            \caption{Collect feedback}
             \label{fig:collect_feedback_sequence_diagram}
         \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Collect application \\
+                \hline
+                \textbf{Actors}
+                & Recommendation System \\
+                & Student \\
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & \\
+                \hline
+                \textbf{Event Flow}
+                & \\
+                \hline
+                \textbf{Exit Condition}
+                & \\
+                \hline
+                \textbf{Exception}
+                & No exception. \\
+                \hline
+            \end{longtable}
+        \end{center}
 
     \newpage
         
     \textbf{[UC13] - Selection process}
+    
         \begin{figure}[H]
             \hspace*{-1.5cm}
             \centering
@@ -657,6 +839,20 @@ A company is a user that advertises internships on the platform. Companies can c
         \end{center}
 
 \subsubsection{Requirement Mapping}
+
+
+
+
+    \begin{center}
+        \begin{table}[H]
+            \begin{tabular}{|l|l|}
+                \textbf{[G1]} The platform should facilitate the matchmaking process between university students and companies offering internships.\\
+                \hline
+                ciao & ciao \\
+                \hline
+            \end{tabular}
+        \end{table}
+    \end{center}
 
 \subsection{Performance Requirements}
 
