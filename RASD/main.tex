@@ -139,7 +139,7 @@ A student who is seeking internship opportunities starts by preparing a CV that 
 \vspace{0.5cm}
 
 \textbf{The Recommendation System Notifies a Student} \\
-When a student uploads their CV to the platform, the recommendation system analyzes it, taking into account their skills, experiences, and preferences. If an internship matching the student’s profile becomes available or is uploaded, the system sends a notification with details about the position, such as tasks, requirements, and terms. The student can then decide whether to apply directly through the platform. %RIFAI SEQUENCE DIAGRAM  
+When a student uploads their CV to the platform, the recommendation system analyzes it, taking into account their skills, experiences, and preferences. If an internship matching the student’s profile becomes available or is uploaded, the system sends a notification with details about the position, such as tasks, requirements, and terms. The student can then decide whether to apply directly through the platform.
 
 \vspace{0.5cm}
 
@@ -278,11 +278,47 @@ A company is a user that advertises internships on the platform. Companies can c
 
 \subsubsection{User Interfaces}
 
+The Students\&Companies platform provides an intuitive and user-friendly interface designed to meet the needs of its two primary stakeholders: students and companies. Below, we illustrate key aspects of the interface design for different user roles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/1.png}
+    \caption{\textbf{Login Page:} Allows users to sign in as either a student or a company representative.}
+    \label{fig:login_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/2.png}
+    \caption{\textbf{CV Upload Page:} Enables students to upload their CVs to the platform.}
+    \label{fig:cv_upload_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/3.png}
+    \caption{\textbf{Student Dashboard:} Provides students with access to settings and navigation options.}
+    \label{fig:student_dashboard}
+\end{figure}
+
+
+
 \subsubsection{Hardware Interfaces}
 
 \subsubsection{Communication Interfaces}
 
-\subsection{Functional Requirements}
+\subsection{Functional Requirements \& Goals - Requirement mapping}
+
+    \begin{center}
+        \begin{longtable}{|l|p{0.75\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{\linewidth}|}{\textbf{[G1] - The platform should facilitate the matchmaking process between university students and companies offering internships.}} \\
+            \hline
+             \textbf{ID} & \textbf{Requirement}  \\
+            \hline
+        \end{longtable}
+    \end{center}
+
 
     \textbf{Log in and Sign up}
         \begin{itemize}
@@ -332,31 +368,14 @@ A company is a user that advertises internships on the platform. Companies can c
     \begin{figure}[H]
         \centering
         \hspace*{-1cm}
-        \includegraphics[scale = 0.3]{rasd_diagrams/UseCaseDiagram_v_1_4.png}
+        \includegraphics[scale = 0.3]{rasd_diagrams/UseCaseDiagram_v_1_5.png}
         \caption{\textbf{Use Case Diagram}}
         \label{fig:use_case_diagram}
     \end{figure}
 
     %Inserire descrizione
 
-\subsubsection{Use Cases}
-    \begin{itemize}
-        \item \textbf{[UC1] - Sign-Up}
-        \item \textbf{[UC2] - Log-in}
-        \item \textbf{[UC3] - Upload CV}
-        \item \textbf{[UC4] - Modify CV}
-        \item \textbf{[UC5] - Advertise internship}
-        \item \textbf{[UC6] - Modify internship advertise}
-        \item \textbf{[UC7] - Delete internship advertise}
-        \item \textbf{[UC8] - Search internships}
-        \item \textbf{[UC9] - Recommendation process}
-        \item \textbf{[UC10] - Submit application}
-        \item \textbf{[UC11] - Assess application}
-        \item \textbf{[UC12] - Collect feedback}
-        \item \textbf{[UC13] - Selection process}
-    \end{itemize}
-
-\subsubsection{Sequence Diagrams}
+\subsubsection{Use Cases and Sequence Diagrams}
     \textbf{[UC1] - Sign-Up}
     
         \begin{figure}[H]
@@ -386,8 +405,11 @@ A company is a user that advertises internships on the platform. Companies can c
                 & If there are no conflicts in the user's info (for example, username already used), the registration process terminates correctly, and the homepage is sent to the user. \\
                 \hline
                 \textbf{Exception}
-                & The user is already registered. \\
-                & Conflicts in the information sent by the user. \\
+                   & \begin{itemize}
+                        \item The user is already registered.
+                        \item Conflicts in the information sent by the user.
+                    \end{itemize} \\
+                & An error message is shown to the user reporting the error. \\
                 \hline
             \end{longtable}
         \end{center}
@@ -648,20 +670,20 @@ A company is a user that advertises internships on the platform. Companies can c
 
     \newpage
         
-    \textbf{[UC9] - Recommendation process}
+    \textbf{[UC9] - Notify student about recommended internship}
     
         \begin{figure}[H]
             \centering
-            \includegraphics[scale = 0.6]{sequence_diagrams/SequenceDiagramRecommendationProcess_v_1_0.png}
-            \caption{Recommendation process}
-            \label{fig:recommendation_process_sequence_diagram}
+            \includegraphics[scale = 0.6]{RASD/sequence_diagrams/SequenceDiagramNotifyStudent_v_1_2.png}
+            \caption{Notify student about recommended internship}
+            \label{fig:notify_student_sequence_diagram}
         \end{figure}
 
         \begin{center}
             \begin{longtable}{|l|p{0.75\linewidth}|}
                 \hline
                 \textbf{Name}
-                & Recommendation process \\
+                & Notify student about recommended internship \\
                 \hline
                 \textbf{Actors}
                 & Student \\
@@ -669,16 +691,54 @@ A company is a user that advertises internships on the platform. Companies can c
                 & Company \\
                 \hline
                 \textbf{Entry Condition}
-                & New feedbacks are collected. \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                & Company uploads a new internship advertise \\
                 \hline
                 \textbf{Event Flow}
-                & 1 - Recommendation System asks for students and companies feedback. \\ 
-                & 2 - S\&C returns the feedback. \\
-                & 3 - Recommendation System searches for possible matches between a student and an internship. \\
-                & 4 - If a match is found the recommendation system asks for company and student information. \\
+                & 1 - Recommendation System gets all CVs from S\&C. \\ 
+                & 2 - S\&C returns the list of all CVs. \\
+                & 3 - Recommendation System analyses the internship advertise and the list of CVs, searching for possible matches. \\
+                & 4 - For every found match, the recommendation system asks the information about the student whose CV belongs to. \\ %RISCRIVI MEGLIO
                 \hline
                 \textbf{Exit Condition}
-                & Recommendation notifies about the match it found both the company and the student. \\
+                & Recommendation notifies about the match both the company and the student. \\
+                \hline
+                \textbf{Exception}
+                & No exception. \\
+                \hline
+            \end{longtable}
+        \end{center}
+
+    \textbf{[UC10] - Notify company about recommended student} %FORSE VANNO INVERTITE UC10 E UC9
+    
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale = 0.6]{RASD/sequence_diagrams/SequenceDiagramNotifyCompany_v_1_1.png}
+            \caption{Notify company about recommended students}
+            \label{fig:notify_company_sequence_diagram}
+        \end{figure}
+
+        \begin{center}
+            \begin{longtable}{|l|p{0.75\linewidth}|}
+                \hline
+                \textbf{Name}
+                & Notify company about recommended students \\
+                \hline
+                \textbf{Actors}
+                & Student \\
+                & Recommendation System \\
+                & Company \\
+                \hline
+                \textbf{Entry Condition}
+                & Student uploads or modifies CV. \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                \hline
+                \textbf{Event Flow}
+                & 1 - Recommendation System asks S\&C all the available internships. \\ 
+                & 2 - S\&C returns all the available internships. \\
+                & 3 - Recommendation System analyses the possible matching between internships and CV. \\
+                & 4 - For every found match the recommendation system asks S\&C the information about the company. \\
+                \hline
+                \textbf{Exit Condition}
+                & Recommendation notifies about the match both the company and the student. \\
                 \hline
                 \textbf{Exception}
                 & No exception. \\
@@ -688,11 +748,11 @@ A company is a user that advertises internships on the platform. Companies can c
 
     \newpage
         
-    \textbf{[UC10] - Submit application}
+    \textbf{[UC11] - Submit application}
     
         \begin{figure}[H]
             \centering
-            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSubmitApplication_v_1_0.png}
+            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSubmitApplication_v_1_2.png}
             \caption{Submit application}
             \label{fig:submit_application_sequence_diagram}
         \end{figure}
@@ -708,12 +768,13 @@ A company is a user that advertises internships on the platform. Companies can c
                 & Company \\
                 \hline
                 \textbf{Entry Condition}
-                & Student finds an internship he wants to apply to \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                & Student finds an internship he wants to apply to \\
                 \hline
                 \textbf{Event Flow}
-                & 1 - Student asks for internship details. \\ 
+                & 1 - Student asks for internship details to S\&C. \\ 
                 & 2 - Student writes the application. \\
                 & 3 - Student submits the application to the company through S\&C. \\
+                & 4 - S\&C returns the status of the operation. \\
                 \hline
                 \textbf{Exit Condition}
                 & Company receives the application from the student. \\
@@ -726,7 +787,7 @@ A company is a user that advertises internships on the platform. Companies can c
 
     \newpage
         
-    \textbf{[UC11] - Assess application}
+    \textbf{[UC12] - Assess application}
     
         \begin{figure}[H]
             \centering
@@ -746,7 +807,7 @@ A company is a user that advertises internships on the platform. Companies can c
                 & Company \\
                 \hline
                 \textbf{Entry Condition}
-                & Company receives an application from a student. \\ %AGGIUNGI QUESTA PARTE AL SEQUENCE
+                & Company receives an application from a student. \\
                 \hline
                 \textbf{Event Flow}
                 & 1 - Company writes the response to the student. \\ 
@@ -763,11 +824,11 @@ A company is a user that advertises internships on the platform. Companies can c
 
     \newpage
         
-    \textbf{[UC12] - Collect feedback}
+    \textbf{[UC13] - Collect feedback}
     
         \begin{figure}[H]
             \centering
-            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramCollectFeedback_v_1_0.png}
+            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramCollectFeedback_v_1_1.png}
             \caption{Collect feedback}
             \label{fig:collect_feedback_sequence_diagram}
         \end{figure}
@@ -784,28 +845,32 @@ A company is a user that advertises internships on the platform. Companies can c
                 & Company \\
                 \hline
                 \textbf{Entry Condition}
-                & \\
+                & Student and company have finished the internship period.\\
                 \hline
                 \textbf{Event Flow}
-                & \\
+                & 1 - Recommendation system asks S\&C to collect feedback about a certain internship. \\
+                & 2 - S\&C collects the internship details. \\
+                & 3 - S\&C asks for feedback to both the company and the student involved in the internship. \\
+                & 4 - Student and Company both provide their feedback to S\&C. \\
+                & 5 - S\&C applies a statistical integrates the feedback with the stored data. \\
                 \hline
                 \textbf{Exit Condition}
-                & \\
+                & Recommendation system receives the new statistical analysis to use to search for possible matches.\\
                 \hline
                 \textbf{Exception}
-                & No exception. \\
+                & The company or the student does not provide feedback. \\
                 \hline
             \end{longtable}
         \end{center}
 
     \newpage
         
-    \textbf{[UC13] - Selection process}
+    \textbf{[UC14] - Selection process}
     
         \begin{figure}[H]
             \hspace*{-1.5cm}
             \centering
-            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSelectionProcess_v_1_0.png}
+            \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSelectionProcess_v_1_1.png}
             \caption{Log-in}
             \label{fig:selection_process_sequence_diagram}
         \end{figure}
@@ -838,20 +903,34 @@ A company is a user that advertises internships on the platform. Companies can c
             \end{longtable}
         \end{center}
 
+%Da togliere appena finito di rifare requirements
 \subsubsection{Requirement Mapping}
 
-
-
-
     \begin{center}
-        \begin{table}[H]
-            \begin{tabular}{|l|l|}
-                \textbf{[G1]} The platform should facilitate the matchmaking process between university students and companies offering internships.\\
-                \hline
-                ciao & ciao \\
-                \hline
-            \end{tabular}
-        \end{table}
+        \begin{longtable}{|p{0.5\linewidth}|p{0.5\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{\linewidth}|}{\textbf{[G1] - The platform should facilitate the matchmaking process between university students and companies offering internships.}} \\
+            \hline
+                \begin{itemize}
+                    \item [R3] - The system permits students to upload their CVs.
+                    \item [R4] - The system permits students to modify their CVs.
+                    \item [R6] - The system permits companies to publish their internship proposal.
+                    \item [R7] - The system permits companies to modify their internship proposal.
+                    \item [R9] - The system shows students only the internship proposals.
+                    \item [R10] -The system shows companies only students CVs.
+                    \item [R11] - If a student with a CV which is compatible with the company requests is available then the system notify the company about this student.
+                    \item [R12] - If an internship which matches the interests of the student is available then the system notifies the student about this internship.
+                    \item [R15] - If the user is interested, the system permits him to accept the recommendation.
+                    \item [R16] - If both the company and the student accept the recommendation, the system puts them in contact.
+                    \item [R17] - If the company and the student have been put in contact then the system starts the selection process.
+                    \item [R18] - The system helps the company managing the interview.
+                    \item [R19] - If the interview went well (the company is satisfied with the answers provided by the student), the system finalize the selection.
+                    \item [R20] - The system collects the feedback from the users.
+                    \item [R21] - The system uses collected feedback to feed statistical analysis applied during recommendation.
+                \end{itemize}
+             &  \\
+            \hline
+        \end{longtable}
     \end{center}
 
 \subsection{Performance Requirements}
