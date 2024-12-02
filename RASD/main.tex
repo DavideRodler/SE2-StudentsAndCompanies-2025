@@ -11,8 +11,8 @@
 
 \geometry{a4paper}
 
-
-% Domain assumption reliable connection
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
 
 \begin{titlepage}
 
@@ -22,13 +22,15 @@
 
 \end{titlepage}
 
-%Andrebbe messo il titolo in una pagina e la tableofcontents in un'altra
-
 \begin{document}
 
 \maketitle
 
+\newpage
+
 \tableofcontents
+
+\newpage
 
 \section{Introduction}
 
@@ -134,7 +136,7 @@ A company looking to hire interns accesses the Students\&Companies (S\&C) platfo
 \vspace{0.5cm}
 
 \textbf{A Student Publishes Their CV} \\
-A student who is seeking internship opportunities starts by preparing a CV that outlines their skills, experiences, and educational background. If the CV is not already prepared, the student creates one specifically for this purpose. After ensuring the CV is complete and accurate, the student logs into the S\&C platform and uploads the document via the dedicated section. Once uploaded, the CV becomes available for companies to review, increasing the student’s visibility to potential employers. %RIVEDERE SEQUENCE DIAGRAM
+A student who is seeking internship opportunities starts by preparing a CV that outlines their skills, experiences, and educational background. If the CV is not already prepared, the student creates one specifically for this purpose. After ensuring the CV is complete and accurate, the student logs into the S\&C platform and uploads the document via the dedicated section. Once uploaded, the CV becomes available for companies to review, increasing the student’s visibility to potential employers.
 
 \vspace{0.5cm}
 
@@ -178,7 +180,7 @@ Once the interview process is completed, a company offers the internship to the 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.62]{rasd_diagrams/Class-Diagram.png}
-    \caption{\scriptsize \textbf{Domain Class Diagram of the Students\&Companies (S\&C) Platform}}
+    \caption{Students\&Companies (S\&C) Platform's domain class diagram}
     \label{fig:domain_class_diagram}
 \end{figure}
 
@@ -215,7 +217,7 @@ In this subsection, a discussion is provided regarding the state charts diagram 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{rasd_diagrams/InternshipStateDiagram.png}
-    \caption{\textbf{State Diagram for Internship Application Process}}
+    \caption{Internship Application Process State Diagram}
     \label{fig:internship_state_chart}
 \end{figure}
 
@@ -239,7 +241,7 @@ This function is available to all users who want to subscribe to the platform. W
 This function allows companies to manage internship opportunities. After logging in, a company can create an internship by filling out a form specifying the internship’s application domain, tasks to be performed, technologies (if applicable), and terms offered (e.g., paid internships, training, mentorship). Companies can also edit or delete their published internships based on their evolving needs. Furthermore, companies are notified by the system when students matching their criteria upload new CVs to the platform.
 
 \subsubsection{CV Management by Students}
-Students can create and upload their CVs using this function. Once logged into the platform, students are directed to a section where they can fill in their skills, experiences, and educational background to generate a CV. Students can update or replace their CVs whenever necessary to reflect their most recent achievements. The platform ensures that uploaded CVs are visible to companies searching for suitable candidates. %Avevamo messo come domain assumption che lo studente creava il CV fuori dalla piattaforma
+Students can create and upload their CVs using this function. Once logged into the platform, students are directed to a section where they can fill in their skills, experiences, and educational background to generate a CV. Students can update or replace their CVs whenever necessary to reflect their most recent achievements. The platform ensures that uploaded CVs are visible to companies searching for suitable candidates.
 
 \subsubsection{Search and Application for Internships}
 This function allows students to browse and search for internships posted by companies. Students can filter internships based on domains, tasks, technologies, or terms. Once a student identifies a suitable internship, they can submit their application by attaching their CV and any additional required information. This application is stored in the platform and made available to the corresponding company for review.
@@ -251,7 +253,7 @@ The platform integrates a recommendation system to streamline the internship mat
 This function supports the interview process between students and companies. Once a company shortlists a student’s application, they can use the platform to schedule an interview. The system provides tools for managing the interview, such as setting dates and sharing structured questionnaires. Notifications about scheduled interviews are sent to both students and companies, ensuring effective communication and coordination.
 
 \subsubsection{Application Status Tracking}
-Students can track the status of their internship applications through this function. Applications transition between states such as \textit{Submitted}, \textit{Under Review}, \textit{Interview Scheduled}, \textit{Accepted}, and \textit{Rejected}. These status updates are visible on the student’s dashboard, providing real-time insights into their application progress. %Secondo me esce troppo dalla specifica, soprattutto quando proponi 4 stati della domanda, lì si entra un po' troppo nella fase di design
+Students can track the status of their internship applications through this function. Applications transition between states such as \textit{Submitted}, \textit{Under Review}, \textit{Interview Scheduled}, \textit{Accepted}, and \textit{Rejected}. These status updates are visible on the student’s dashboard, providing real-time insights into their application progress.
 
 \subsubsection{Internship Acceptance and Finalization}
 Once the interview process concludes, companies can accept or reject applications. Accepted applications transition to a finalized state, and the student receives an offer notification. This function ensures that both parties have clear and structured communication regarding the outcome, marking the official start of the internship.
@@ -268,7 +270,17 @@ A student is able to register and log in to the platform. Students can search fo
 \subsubsection{Company}
 A company is a user that advertises internships on the platform. Companies can create internship offers, review student applications, and manage the selection process, including scheduling interviews. They also receive notifications when suitable candidates are identified by the system.
 
-
+\subsection{Assumption, Dependencies and Constraints}
+    The following assumptions are made for the domain and taken for granted by the system.They must be verified to ensure the correct platform behavior.
+    The domain assumption for S\&C are:
+    \begin{itemize}
+        \item \textbf{[D1]} Users have a reliable internet connection.
+        \item \textbf{[D2]} Students do not lie when compiling his resume.
+        \item \textbf{[D3]} Companies do not insert false information in their advertise.
+        \item \textbf{[D4]} Students and companies give a truthful feedback at the end of their internship experience.
+        \item \textbf{[D5]} Students answer to questionnaires sent by the companies during the selection process.
+    \end{itemize}
+    
 
 \newpage
 
@@ -297,91 +309,201 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{design png/3.png}
-    \caption{\textbf{Student Dashboard:} Provides students with access to settings and navigation options.}
+    \caption{\textbf{Student Home Page:} Displays available and applied internships for students
+to manage their applications.}
     \label{fig:student_dashboard}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/4.png}
+    \caption{\textbf{Recommended Stages Page:} Shows stages recommended.}
+    \label{fig:student_home_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/5.png}
+    \caption{\textbf{Notification Center:} Provides students with updates and messages.}
+    \label{fig:recommended_stages}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/6.png}
+    \caption{\textbf{Company Home Page:}Allows companies to manage stages and view
+candidate applications.}
+    \label{fig:notification_center}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/7.png}
+    \caption{\textbf{Candidate Management Page:} Enables companies to evaluate applica-
+tions and manage interviews.}
+    \label{fig:company_home_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/8.png}
+    \caption{\textbf{Recommended Students Page:} Suggests students based on company
+criteria and internship match.}
+    \label{fig:candidate_management}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/9.png}
+    \caption{\textbf{New Stage Creation Page:} Allows companies to add and customize new
+internship stages.}
+    \label{fig:recommended_students}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{design png/10.png}
+    \caption{\textbf{Company Notification Page:} Allows companies to see all notification of new matches with students or new requests from studnets.}
+    \label{fig:new_stage_creation}
+\end{figure}
+
+\newpage
 
 
 \subsubsection{Hardware Interfaces}
+    Since the system won't interact with any particular external hardware, no remarkable constraints and hardware interfaces are needed.
+    
+\subsubsection{Software Interfaces}
+    In order to guarantee part of its functionalities, S\&C needs the following software interface:
+        \begin{itemize}
+            \item \textbf{Recommendation System API}: this interface is used by S\&C to communicate with the recommendation system, which is needed to suggest students to companies and vice versa, through mechanism such as statistical analysis and keyword searching.
+        \end{itemize}
 
 \subsubsection{Communication Interfaces}
+    The web app will communicate with S\&C via an internet connection. The communication protocols that will be used by the system is:
+        \begin{itemize}
+            \item \textbf{HyperText Transfer Protocol over Secure Socket Layer (HTTPS)}. This protocol is used every time an exchange of information with the external world is needed.
+        \end{itemize}
 
 \subsection{Functional Requirements \& Goals - Requirement mapping}
 
     \begin{center}
         \begin{longtable}{|l|p{0.75\linewidth}|}
             \hline
-            \multicolumn{2}{|p{\linewidth}|}{\textbf{[G1] - The platform should facilitate the matchmaking process between university students and companies offering internships.}} \\
+            \multicolumn{2}{|p{0.75\linewidth}|}{\textbf{[G1] - Allows students and companies to register and log in, so that students can search and apply for an internship, while companies can evaluate proposals and interview students.}} \\
             \hline
-             \textbf{ID} & \textbf{Requirement}  \\
+            \textbf{ID} & \textbf{Requirement}  \\
             \hline
+            \textbf{R1} & The system allows users to register to the platform. \\
+            \hline
+            \textbf{R2} & The system allows users to login to the platform through their credentials. \\
+            \hline
+            \caption{Goal 1 requirements}
         \end{longtable}
     \end{center}
 
+    \begin{center}
+        \begin{longtable}{|l|p{0.75\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{0.75\linewidth}|}{\textbf{[G2] - Helps students and companies manage, respectively, resumes and internships.}} \\
+            \hline
+            \textbf{R3} & The system permits students to upload their CVs. \\
+            \hline
+            \textbf{R4} & The system permits students to modify their CVs. \\
+            \hline
+            \textbf{R5} & The system permits companies to publish their internship proposal. \\
+            \hline
+            \textbf{R6} & The system permits companies to modify their internship proposal. \\
+            \hline
+            \textbf{R7} & The system permits companies to delete their internship proposal. \\
+            \hline
+            \caption{Goal 2 requirements}
+        \end{longtable}
+    \end{center}
 
-    \textbf{Log in and Sign up}
-        \begin{itemize}
-            \item \textbf{[R1]} The system allows users to register to the platform.
-            \item \textbf{[R2]} The system allows users to login to the platform through their credentials.
-        \end{itemize}
-    \textbf{Functionalities}
-        \begin{itemize}
-            \item \textbf{[R3]} The system permits students to upload their CVs.
-            \item \textbf{[R4]} The system permits students to modify their CVs.
-            \item \textbf{[R5]} The system permits students to proactively search for internships.
-            \item \textbf{[R6]} The system permits companies to publish their internship proposal.
-            \item \textbf{[R7]} The system permits companies to modify their internship proposal.
-            \item \textbf{[R8]} The system permits companies to delete their internship proposal.
-        \end{itemize}
-    \textbf{Encapsulation}
-        \begin{itemize}
-            \item \textbf{[R9]} The system shows students only the internship proposals.
-            \item \textbf{[R10]} The system shows companies only students CVs.
-        \end{itemize}
-    \textbf{Recommendation System}
-        \begin{itemize}
-            \item \textbf{[R11]} If a student with a CV which is compatible with the company requests is available then the system notify the company about this student.
-            \item \textbf{[R12]} If an internship which matches the interests of the student is available then the system notifies the student about this internship.
-        \end{itemize}
-    \textbf{Interaction between students and companies}
-        \begin{itemize}
-            \item \textbf{[R13]} The system permits the student to submit their application to an internship they are interested in.
-            \item \textbf{[R14]} The system permits the companies to assess the students applications.
-        \end{itemize}
-    \textbf{Selection Process}
-        \begin{itemize}
-            \item \textbf{[R15]} If the user is interested, the system permits him to accept the recommendation.
-            \item \textbf{[R16]} If both the company and the student accept the recommendation, the system puts them in contact.
-            \item \textbf{[R17]} If the company and the student have been put in contact then the system starts the selection process.
-            \item \textbf{[R18]} The system helps the company managing the interview.
-            \item \textbf{[R19]} If the interview went well (the company is satisfied with the answers provided by the student), the system finalize the selection.
-        \end{itemize}
-    \textbf{Feedback}
-        \begin{itemize}
-            \item \textbf{[R20]} The system collects the feedback from the users.
-            \item \textbf{[R21]} The system uses collected feedback to feed statistical analysis applied during recommendation.
-        \end{itemize}
-    
+    \begin{center}
+        \begin{longtable}{|l|p{0.75\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{0.75\linewidth}|}{\textbf{[G3] - Facilitates the matching process between students and companies, assisting them in the search and apply process.}} \\
+            \hline
+            \textbf{ID} & \textbf{Requirement}  \\
+            \hline
+            \textbf{R8} & The system permits students to proactively search for internships. \\
+            \hline
+            \textbf{R9} & The system shows students only the internship proposals. \\
+            \hline
+            \textbf{R10} & The system shows companies only students resumes. \\
+            \hline
+            \textbf{R11} & If a student with a CV which is compatible with the company requests is available then the system notify the company about this student. \\
+            \hline
+            \textbf{R12} & If an internship which matches the interests of the student is available then the system notifies the student about this internship. \\
+            \hline
+            \textbf{R13} & The system permits the student to submit their application to an internship they are interested in. \\
+            \hline
+            \textbf{R14} & The system permits the companies to assess the students applications. \\
+            \hline
+            \textbf{R15} & If the user is interested, the system permits him to accept the recommendation. \\
+            \hline
+            \textbf{R16} & If both the company and the student accept the recommendation, the system puts them in contact. \\
+            \hline
+            \caption{Goal 3 requirements}
+        \end{longtable}
+    \end{center}
+
+    \begin{center}
+        \begin{longtable}{|l|p{0.75\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{0.75\linewidth}|}{\textbf{[G4] - Support companies during selection process, including interview management.}} \\
+            \hline
+            \textbf{ID} & \textbf{Requirement}  \\
+            \hline
+            \textbf{R17} & If the company and the student have been put in contact then the system starts the selection process. \\
+            \hline
+            \textbf{R18} & The system helps the company managing the interview. \\
+            \hline
+            \textbf{R19} & If the interview went well (the company is satisfied with the answers provided by the student), the system finalize the selection. \\
+            \hline
+            \caption{Goal 4 requirements}
+        \end{longtable}
+    \end{center}
+
+    \begin{center}
+        \begin{longtable}{|l|p{0.75\linewidth}|}
+            \hline
+            \multicolumn{2}{|p{0.75\linewidth}|}{\textbf{[G5] - Gather feedback from students and companies to improve the recommendation system and internship quality.}} \\
+            \hline
+            \textbf{ID} & \textbf{Requirement}  \\
+            \hline
+            \textbf{R20} & The system collects the feedback from the users. \\
+            \hline
+            \textbf{R21} & The system uses collected feedback to feed statistical analysis applied during recommendation. \\
+            \hline
+            \caption{Goal 5 requirements}
+        \end{longtable}
+    \end{center}
 
 \subsubsection{Use Case Diagram}
+    
+    In this section are presented some of Students\&Companies use cases. These are first illustrated in the following diagram, to give a general and abstract view of the use cases associated to each actor and the interaction between them. 
+    
     \begin{figure}[H]
         \centering
         \hspace*{-1cm}
         \includegraphics[scale = 0.3]{rasd_diagrams/UseCaseDiagram_v_1_5.png}
-        \caption{\textbf{Use Case Diagram}}
+        \caption{Use Case Diagram}
         \label{fig:use_case_diagram}
     \end{figure}
 
-    %Inserire descrizione
-
 \subsubsection{Use Cases and Sequence Diagrams}
+
+    In this section the uses cases illustrated in diagram \ref{fig:use_case_diagram} are described in their details, through sequence diagrams and tables to better understand the flow.
+    
     \textbf{[UC1] - Sign-Up}
     
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSignUp_v_1_0.png}
-            \caption{Sign-up}
+            \caption{Sign-up sequence diagram}
             \label{fig:sign_up_sequence_diagram}
         \end{figure}
         
@@ -395,7 +517,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 & User (Student or Company) \\
                 \hline
                 \textbf{Entry Condition}
-                & The user is not registered and connects to the site URL. \\
+                & The user hasn't created an account yet. \\
                 \hline
                 \textbf{Event Flow}
                 & 1 - User compiles the registration form. \\
@@ -411,6 +533,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                     \end{itemize} \\
                 & An error message is shown to the user reporting the error. \\
                 \hline
+                \caption{Sign-up use case}
             \end{longtable}
         \end{center}
         
@@ -421,7 +544,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramLogin_v_1_0.png}
-            \caption{Log-in}
+            \caption{Log-in sequence diagram}
             \label{fig:log_in_sequence_diagram}
         \end{figure}
 
@@ -447,6 +570,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 &  User's info don't match the ones stored in the database. \\
                 \hline
+                \caption{Log-in use case}
             \end{longtable}
         \end{center}
 
@@ -457,7 +581,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramUploadCV_v_1_1.png}
-            \caption{Log-in}
+            \caption{Upload CV sequence diagram}
             \label{fig:upload_cv_sequence_diagram}
         \end{figure}
 
@@ -483,6 +607,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 &  No exception \\
                 \hline
+                \caption{Upload CV use case}
             \end{longtable}
         \end{center}
 
@@ -493,7 +618,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramModifyCV_v_1_0.png}
-            \caption{Log-in}
+            \caption{Modify CV sequence diagram}
             \label{fig:modify_cv_sequence_diagram}
         \end{figure}
 
@@ -520,6 +645,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 &  Student does not possess a CV. \\
                 \hline
+                \caption{Modify CV use case}
             \end{longtable}
         \end{center}
 
@@ -530,7 +656,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramAdvertiseInternship_v_1_0.png}
-            \caption{Log-in}
+            \caption{Advertise internship sequence diagram}
             \label{fig:advertise_internship_sequence_diagram}
         \end{figure}
 
@@ -557,6 +683,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 &  No exception. \\
                 \hline
+                \caption{Advertise internship use case}
             \end{longtable}
         \end{center}
 
@@ -566,7 +693,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramModifyInternship_v_1_1.png}
-            \caption{Log-in}
+            \caption{Modify internship advertise sequence diagram}
             \label{fig:modify_internship_sequence_diagram}
         \end{figure}
 
@@ -594,6 +721,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & Internship details not available. \\
                 \hline
+                \caption{Modify internship use case}
             \end{longtable}
         \end{center}
 
@@ -603,7 +731,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramDeleteInternship_v_1_0.png}
-            \caption{Delete internship}
+            \caption{Delete internship sequence diagram}
             \label{fig:delete_internship_sequence_diagram}
         \end{figure}
 
@@ -629,6 +757,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & Internship advertise does not exist. \\
                 \hline
+                \caption{Delete internship use case}
             \end{longtable}
         \end{center}
 
@@ -639,7 +768,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSearchInternship_v_1_0.png}
-            \caption{Search internship}
+            \caption{Search internship sequence diagram}
             \label{fig:search_internship_sequence_diagram}
         \end{figure}
 
@@ -665,6 +794,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & No exception \\
                 \hline
+                \caption{Search internship use case}
             \end{longtable}
         \end{center}
 
@@ -675,7 +805,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.6]{RASD/sequence_diagrams/SequenceDiagramNotifyStudent_v_1_2.png}
-            \caption{Notify student about recommended internship}
+            \caption{Notify student about recommended internship sequence diagram}
             \label{fig:notify_student_sequence_diagram}
         \end{figure}
 
@@ -705,6 +835,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & No exception. \\
                 \hline
+                \caption{Notify student about recommended companies use case}
             \end{longtable}
         \end{center}
 
@@ -713,7 +844,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.6]{RASD/sequence_diagrams/SequenceDiagramNotifyCompany_v_1_1.png}
-            \caption{Notify company about recommended students}
+            \caption{Notify company about recommended students sequence diagram}
             \label{fig:notify_company_sequence_diagram}
         \end{figure}
 
@@ -743,6 +874,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & No exception. \\
                 \hline
+                \caption{Notify company about recommended students use case}
             \end{longtable}
         \end{center}
 
@@ -753,7 +885,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSubmitApplication_v_1_2.png}
-            \caption{Submit application}
+            \caption{Submit application sequence diagram}
             \label{fig:submit_application_sequence_diagram}
         \end{figure}
 
@@ -782,6 +914,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & No exception. \\
                 \hline
+                \caption{Submit application use case}
             \end{longtable}
         \end{center}
 
@@ -792,7 +925,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceAssessApplication_v_1_0.png}
-            \caption{Assess application}
+            \caption{Assess application sequence diagram}
             \label{fig:assess_application_sequence_diagram}
         \end{figure}
 
@@ -819,6 +952,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & No exception. \\
                 \hline
+                \caption{Assess application use case}
             \end{longtable}
         \end{center}
 
@@ -829,7 +963,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
         \begin{figure}[H]
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramCollectFeedback_v_1_1.png}
-            \caption{Collect feedback}
+            \caption{Collect feedback sequence diagram}
             \label{fig:collect_feedback_sequence_diagram}
         \end{figure}
 
@@ -837,7 +971,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
             \begin{longtable}{|l|p{0.75\linewidth}|}
                 \hline
                 \textbf{Name}
-                & Collect application \\
+                & Collect feedback \\
                 \hline
                 \textbf{Actors}
                 & Recommendation System \\
@@ -860,6 +994,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & The company or the student does not provide feedback. \\
                 \hline
+                \caption{Collect feedback use case}
             \end{longtable}
         \end{center}
 
@@ -871,7 +1006,7 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
             \hspace*{-1.5cm}
             \centering
             \includegraphics[scale = 0.7]{sequence_diagrams/SequenceDiagramSelectionProcess_v_1_1.png}
-            \caption{Log-in}
+            \caption{Selection process sequence diagram}
             \label{fig:selection_process_sequence_diagram}
         \end{figure}
         
@@ -900,64 +1035,117 @@ The Students\&Companies platform provides an intuitive and user-friendly interfa
                 \textbf{Exception}
                 & Student does not answer the questionnaires. \\
                 \hline
+                \caption{Selection process use case}
             \end{longtable}
         \end{center}
 
-%Da togliere appena finito di rifare requirements
-\subsubsection{Requirement Mapping}
-
-    \begin{center}
-        \begin{longtable}{|p{0.5\linewidth}|p{0.5\linewidth}|}
-            \hline
-            \multicolumn{2}{|p{\linewidth}|}{\textbf{[G1] - The platform should facilitate the matchmaking process between university students and companies offering internships.}} \\
-            \hline
-                \begin{itemize}
-                    \item [R3] - The system permits students to upload their CVs.
-                    \item [R4] - The system permits students to modify their CVs.
-                    \item [R6] - The system permits companies to publish their internship proposal.
-                    \item [R7] - The system permits companies to modify their internship proposal.
-                    \item [R9] - The system shows students only the internship proposals.
-                    \item [R10] -The system shows companies only students CVs.
-                    \item [R11] - If a student with a CV which is compatible with the company requests is available then the system notify the company about this student.
-                    \item [R12] - If an internship which matches the interests of the student is available then the system notifies the student about this internship.
-                    \item [R15] - If the user is interested, the system permits him to accept the recommendation.
-                    \item [R16] - If both the company and the student accept the recommendation, the system puts them in contact.
-                    \item [R17] - If the company and the student have been put in contact then the system starts the selection process.
-                    \item [R18] - The system helps the company managing the interview.
-                    \item [R19] - If the interview went well (the company is satisfied with the answers provided by the student), the system finalize the selection.
-                    \item [R20] - The system collects the feedback from the users.
-                    \item [R21] - The system uses collected feedback to feed statistical analysis applied during recommendation.
-                \end{itemize}
-             &  \\
-            \hline
-        \end{longtable}
-    \end{center}
 
 \subsection{Performance Requirements}
-
+    The system must be able to fulfill the requests of a great number of users simultaneously with a low response time, in order to maintain the overall experience as good as possible.
+    It is worth to notice that if the user's connection is slow the response time would increase noticeably, regardless of the implementation. 
 \subsection{Design Constraint}
 
 \subsubsection{Standard compliance}
-
+    There are no specific measures to adopt. The S\&C platform is subject to General Data Protection Regulation (GDPR), a regulation in EU law on data protection and privacy for all individuals within the European Union (EU) and European Economic Area (EAA).
 \subsubsection{Hardware limitations}
-
+    The only requirements to access and use S\&C are:
+        \begin{itemize}
+            \item A smartphone and/or a computer (of all operating system, such as Linux, Windows, Android etc.) with an updated browser to access the web app.
+            \item A reliable internet connection to access the browser.
+        \end{itemize}
 \subsubsection{Any other constraint}
-
+    There are no other particular constraints. %Controlla bene
 \subsection{Software System Attributes}
 
 \subsubsection{Reliability}
-
+    The system must be able to run without any interruption for a long period of time. To achieve so and in order to be fault tolerant, the system back-end must use some sort of replication and redundancy, as well as keeping an offline backup of the most important data, in case of failure.
+    
 \subsubsection{Availability}
+    S\&C must provide an availability of 99\%, which means that the average downtime should be around 3.65 days/year. The system must avoid single point of failure and it has to be prepared to possibly large amount of data queried and uploaded. To achieve this, as stated above, the importance of replication and redundancy is underlined once again.
 
 \subsubsection{Security}
+    The system deals with sensitive information so the security aspect must be carefully considered. Password stored in S\&C databases must be encrypted. Seeing the type of sensitive data the implementation of 2-Factor-Access should be considered. Furthermore, to avoid sniffing and spoofing attacks, and guarantee the user's privacy, messages and data sent from client to server should be encrypted. 
 
 \subsubsection{Maintainability}
-
+    To ensure a good level of maintainability the code has to be well documented. A testing routine should provide a functional coverage of, at least, 90\%. User interface should be excluded from the tests.
+    
 \subsubsection{Portability}
-
-\section{Alloy} %Mettere titolo giusto
+    The system has to be compatible with different web browsers (e.g. Firefox, Chrome).
+    
+\section{Formal Analysis using Alloy}
     \begin{comment}
         SEGNARSI IDEE PER ALLOY:
+            Lo studente può essere assunto da una sola azienda
+            Lo stage appartiene ad una sola azienda
+            Il CV appartiene ad un solo studente
+            cmss10
     \end{comment}
+\subsection{Signatures \& Functions}
+
+\subsection{Facts}
+
+\subsection{Assertions}
+
+\subsection{Predicates}
+
+\subsection{Results}
+
+\section{Effort Spent}
+In this section there's an overview of the time effort spent for each group member to write and revise each chapter of this document.
+    \begin{itemize}
+        \item \textbf{Davide Rodler}
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|}
+                    \hline
+                    \textbf{Chapter} & \textbf{Effort (in hours)} \\
+                    \hline
+                    Chapter 1 &  \\
+                    \hline
+                    Chapter 2 &  \\
+                    \hline
+                    Chapter 3 &  \\
+                    \hline
+                    Chapter 4 &  \\
+                    \hline
+                \end{tabular}
+            \end{table} 
+            
+        \item \textbf{Stefano Riva}
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|}
+                    \hline
+                    \textbf{Chapter} & \textbf{Effort (in hours)} \\
+                    \hline
+                    Chapter 1 &  \\
+                    \hline
+                    Chapter 2 &  \\
+                    \hline
+                    Chapter 3 &  \\
+                    \hline
+                    Chapter 4 &  \\
+                    \hline
+                \end{tabular}
+            \end{table}
+    \end{itemize}
+
+\section{Reference \& Used Tools}
+\subsection{Paper References}
+    \begin{itemize}
+        \item Specification document "Assignment RDD AY 2024-2025".
+        \item Slides from the Software Engineering 2 course.
+    \end{itemize}
+\subsection{Used Tools}
+    \begin{itemize}
+        \item Writing and Drafting the document: Overleaf.
+        \item Diagrams drawing: Draw.io.
+        \item Mockups mading: %INSERIRE PROGRAMMA.
+        \item Alloy modelling and testing: Alloytools.
+        \item Versioning: Github.
+    \end{itemize}
+
+\listoffigures
+\listoftables
 
 \end{document}
