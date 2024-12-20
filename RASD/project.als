@@ -1,4 +1,4 @@
-enum ApplicationStatus {Submitted, UnderReview, InterviewScheduled, Accepted, Rejected}
+enum ApplicationStatus {Submitted, UnderReview, Accepted, Rejected}
 enum InternshipStatus {Open, Ongoing, Closed}
 enum InterviewStatus{Scheduled, Hired, Refused}
 
@@ -18,7 +18,7 @@ sig Company extends User {
 sig Application {
     var aState: ApplicationStatus,
 	apply: Student -> Internship
-}
+} {one i: Interview | this in i.application}
 
 sig Internship {
     var iState: InternshipStatus,
@@ -30,9 +30,9 @@ sig Interview {
 	var state: InterviewStatus
 }
 
-sig Notification {
-	between: Student -> Internship,
-	notifiedCompany: one Company
+var sig Notification { //Da mettere constraint per evitare che between e notifiedCompany cambino a caso
+	var between: Student -> Internship,
+	var notifiedCompany: one Company
 }
 
 //DA COMPLETARE
@@ -107,14 +107,12 @@ fact {
 }
 
 //Lifecycle of Application
-//... Submitted -> UnderReview -> InterviewScheduled or Rejected -> Accepted or Rejected
+//... Submitted -> UnderReview -> Accepted or Rejected
 fact {
 	all a: Application|
 		always(a.aState = Submitted implies 
 					eventually a.aState = UnderReview 
 				and a.aState = UnderReview implies 
-					eventually a.aState = InterviewScheduled or a.aState = Rejected
-				and a.aState = InterviewScheduled implies 
 					eventually a.aState = Accepted or a.aState = Rejected
 				and a.aState = Accepted implies 
 					after always a.aState = Accepted
@@ -152,16 +150,14 @@ fact {
 
 //Student cannot apply twice to the same internship
 fact{
-	//DA COMPLETARE
+	no disj a1, a2: Application | getStudent[a1] = getStudent[a2] and 
+		getInternship[a1] = getInternship[a2] 
 }
 
-//No interviews can be scheduled if the student has just applied -> Checked
+//Interviews cannot be scheduled if the application has not been accepted
 fact {
-	always(
-		all a: Application | a.aState = Submitted implies 
-			no i: Interview | i.state = Scheduled and (
-				getStudent[i.application] = getStudent[a] and getInternship[a] = i.internship)
-	)
+	all a: Application | not (a.aState = Accepted) implies 
+		no i: Interview | a in i.application
 }
 
 //If student is hired than his application is in Accepted state -> Checked
@@ -194,8 +190,15 @@ fact {
 
 //Student cannot be notified twice about the same internship
 fact {
-	//DA COMPLETARE
+	no disj n1, n2: Notification | getNotifiedStudent[n1] = getNotifiedStudent[n2] and
+		getInternshipNotification[n1] = getInternshipNotification[n2]
 }
+
+/*
+PROBLEMI:
+	
+*/
+
 
 /**********PREDICATES**********/
 // Predicate to describe when an application can be accepted
@@ -212,26 +215,41 @@ pred submitApplication[s: Student, i: Internship] {
 
 pred world {
 	#Student >= 2
-	#Company > 1
+	#Company > 2
+	let  i = #Internship | i >= 2 and #Application <= i
 }
 
 /**********ASSERTION**********/
 
-//Every internship belongs to a company
+//Every internship belongs to a company -> si può fare di meglio
 assert everyInternshipBelong {
 	all i: Internship |
 		some c: Company | i in c.internships
 }
 
-/**********ZONA DI RUN**********/
-
-pred a [n1: Notification, n2: Notification]{
-	not n1 = n2 and
-	getInternshipNotification[n1] = getInternshipNotification[n2]
+//Only student that uploaded their cv can be hired
+assert hiredWithCV {
+	all s: Student | s.isHired = True implies not(s.cv = none)
 }
 
-run a for 3
+//Interview scheduled when application is accepted
+assert interviewIfAccepted {
+	//SCRIVERE MEGLIO
+	all i: Interview | i.application.aState = Accepted
+}
+
+/**********COMMANDS**********/
+
+//PREDICATO DI TEST DA TOGLIERE PRIMA DI CONSEGNARE
+pred a [a: Application]{
+	a.aState = Accepted and 
+	(no i: Interview | a in i.application)
+}
+
+run a for 10
 
 run world for 5
 
-//check everyInternshipBelong for 3 but 1 Company
+check hiredWithCV for 5
+check interviewIfAccepted for 5
+check everyInternshipBelong for 3 but 1 Company
