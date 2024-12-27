@@ -14,7 +14,7 @@ sig Student extends User {
 }
 
 sig Company extends User {
-	var internships: set Internship
+	internships: set Internship
 }
 
 sig Internship {
@@ -45,14 +45,14 @@ sig Interview {
 	(state = none iff application = none)
 }
 
-/**********FUNCTIONS**********/
+/**********************************************FUNCTIONS**********************************************/
 
-// returns the student that wrote the application
+//Returns the student that wrote the application
 fun getStudent[a: Application]: one Student {
 	(a.apply).Internship
 }
 
-// Returns the internship the application applied to -> RISCRIVI
+//Returns the internship the student wants to apply to
 fun getInternship[a: Application]: one Internship {
 	Student.(a.apply)
 }
@@ -72,11 +72,25 @@ fun getCompany[i: Internship]: one Company {
 	{c: Company | i in c.internships}
 }
 
-/**********FACTS**********/
+/************************************************FACTS************************************************/
 
 //Two students cannot have the same CV
 fact {
 	all disj s1, s2: Student | not (s1.cv = s2.cv) or (s1.cv = s2.cv and s1.cv = none) 
+}
+
+//Two applications cannot refer to the same internship
+fact {
+	all disj a1, a2: Application | 
+		not (getStudent[a1] = getStudent[a2]) or 
+			(getStudent[a1] = getStudent[a2] and getStudent[a1] = none)
+}
+
+//Two applications cannot refer to the same student
+fact {
+	all disj a1, a2: Application | 
+		not (getInternship[a1] = getInternship[a2]) or 
+			(getInternship[a1] = getInternship[a2] and getInternship[a1] = none)
 }
 
 //Every application belong to one and only one student
@@ -103,7 +117,7 @@ fact {
 		let i = getInternshipNotification[n] | #i = 1
 }
 
-//Application never changes -> RISCRIVI
+//The interview always refers to the same application
 fact {
 	all i: Interview | not(i.application = none) implies always (i.application' = i.application)
 }
@@ -115,45 +129,16 @@ fact {
 
 //Lifecycle of Internship
 //... Open -> Ongoing -> Closed
-/*
-fact {
-    all i: Internship |
-        always (i.iState = Open implies 
-            (eventually i.iState = Ongoing and historically i.iState = Open)) 
-        and always (i.iState = Ongoing implies 
-            (eventually i.iState = Closed and historically i.iState = Ongoing)) 
-        and always (i.iState = Closed implies 
-            (historically i.iState = Ongoing and after always (i.iState = Closed)))
-}
-*/
-/*
-fact {
-	  all i: Internship |
-        always (i.iState = Open implies 
-            ((eventually i.iState = Ongoing) and (historically i.iState = Open))) 
-}
-*/
 fact {
 	all i: Internship |
 		always (i.iState = Ongoing implies 
             ((eventually i.iState = Closed) and (historically i.iState = Open))) 
 }
 
-/*
-fact {
-
-    all i: Internship |
-        always (i.iState = Open implies 
-            (eventually i.iState = Ongoing and historically i.iState = Open)) 
-        and always (i.iState = Ongoing implies 
-            (eventually i.iState = Closed and historically i.iState = Ongoing)) 
-        and always (i.iState = Closed implies 
-            (historically i.iState = Ongoing))
-}
-*/
 fact {
 	all i: Internship | always (i.iState = Closed implies after always (i.iState = Closed))
 }
+
 //Lifecycle of Application
 //... Submitted -> UnderReview -> Accepted or Rejected
 fact{
@@ -185,8 +170,8 @@ fact{
 // ... -> Scheduled -> Hired or Refused
 fact {
 	all i: Interview |
-		always (i.state = Scheduled implies
-			eventually (i.state = Hired or i.state = Refused))
+		always (i.state = Scheduled implies (i.application.aState = Accepted and
+			eventually (i.state = Hired or i.state = Refused)))
 }
 
 fact {
@@ -206,32 +191,26 @@ fact {
 //Student Lifecycle
 fact {
 	all s: Student |
-		always (s.isHired = True implies
-			after always(s.isHired = True))
+		always (s.isHired = True implies 
+			((some i: Interview | getStudent[i.application] = s and i.state = Hired) and
+				after always(s.isHired = True)))
 }
 
 //Student cannot be hired if he has not been interviewed
 fact {
 	all s: Student |
-		s.isHired = False releases (no i: Interview | getStudent[i.application] = s and i.state = Hired)
+		s.isHired = False releases 
+			(no i: Interview | getStudent[i.application] = s and i.state = Hired)
 }
 
-//Student can apply only to open or ongoing internships -> Checked
+//Student can apply only to open or ongoing internships
 fact {
 	all a: Application |
 		always (a.aState = Submitted
 			implies getInternship[a].iState = Open or getInternship[a].iState = Ongoing)
 }
 
-//Student cannot apply twice to the same internship
-fact{
-	always(
-		no disj a1, a2: Application | getStudent[a1] = getStudent[a2] and 
-			getInternship[a1] = getInternship[a2]
-	) 
-}
-
-//Student is hired if and only if interview is in Hired state and isHired is true -> RISCRIVI MEGLIO -> Checked
+//Student is hired if and only if he has been successfully interviewed 
 fact {
 	all s: Student | s.isHired = True implies
 		(some i: Interview | getStudent[i.application] = s and i.state = Hired)
@@ -243,10 +222,10 @@ fact {
 		(no n: Notification | getNotifiedStudent[n] = s)
 }
 
-//Companies can be notified iff they have at least one opened internship announce
+//Companies can be notified if and only if they have at least one opened internship announce
 fact {
 	all c: Company | (c.internships = none or 
-			(no i: Internship | i in c.internships and (i.iState = Open or i.iState = Ongoing))) implies
+		(no i: Internship | i in c.internships and (i.iState = Open or i.iState = Ongoing))) implies
 		(no n: Notification | n.notifiedCompany = c)
 }
 
@@ -256,7 +235,7 @@ fact {
 		getInternshipNotification[n1] = getInternshipNotification[n2])
 }
 
-//If an internship is closed there are no application submitted for it
+//If an internship is closed there are no new application submitted for it
 fact {
     all i: Internship |
         i.iState = Closed implies no a: Application | 
@@ -267,24 +246,12 @@ fact {
 fact {
 	all a: Application |
 		(not (a.aState = Accepted) implies
-			(no i: Interview | i.application = a))
-}
-
-//Interview can be scheduled only if the application was accepted
-fact {
+			(no i: Interview | i.application = a)) and
 	all i: Interview, a: Application | (i.state = Scheduled and i.application = a) iff 
 											a.aState = Accepted
 }
 
-/*
-PROBLEMI:
-	1) Interview hired e student non hired -> succede perchè eventually student può tornare non hired
-	2) Non esistono interview
-	3) Esistono interview per application in UnderReview o Submitted
-	4) Student passa ad Hired anche senza interview
-*/
-
-/**********PREDICATES**********/
+/**********************************************PREDICATES*********************************************/
 
 //Student applies to an internship but he is refused
 pred studentApplies1 [s: Student, i: Internship] {
@@ -301,7 +268,8 @@ pred studentApplies1 [s: Student, i: Internship] {
 		)
 }
 
-//Student applies to an internship, his application is accepted, but he is refused during the interview
+//Student applies to an internship, his application is accepted, but he is refused 
+// during the interview
 pred studentApplies2 [s: Student, i: Internship] {
 	#Student = 1
 	#Internship = 1
@@ -319,9 +287,9 @@ pred studentApplies2 [s: Student, i: Internship] {
 		)
 }
 
-//Student applies to an internship, his application is accepted and then he is hired after the interview
-//then the intership is closed
-pred studentApplies3 [s: Student, i: Internship] { //NON FUNZIONA
+//Student applies to an internship, his application is accepted and then he is hired after 
+// the interview then the intership is closed
+pred studentApplies3 [s: Student, i: Internship] {
 	#Student = 1
 	#Internship = 1
 	#Interview = 1
@@ -339,20 +307,15 @@ pred studentApplies3 [s: Student, i: Internship] { //NON FUNZIONA
 }
 
 pred world {
-	#Student >= 2
+	#Student >= 3
 	#Company >= 2
-	#Internship >= 2
-	#Application >= 1
+	#Internship >= 3
+	#Application >= 2
 	#Interview >= 1
 	#Notification >= 1
 }
 
-/**********ASSERTION**********/
-
-//Only student that uploaded their cv can be hired
-assert hiredWithCV {
-	all s: Student | s.isHired = True implies not(s.cv = none)
-}
+/**********************************************ASSERTIONS*********************************************/
 
 //Student can be hired only if he has been interviewed
 assert hiredOnlyIfInterviewed {
@@ -360,12 +323,19 @@ assert hiredOnlyIfInterviewed {
 		(some i: Interview | getStudent[i.application] = s and i.state = Hired)
 }
 
-/**********COMMANDS**********/
+//Student cannot be interviewed if he did not send any application
+assert noApplicationImpliesNoInterview {
+	all s: Student | 
+		(no a: Application | getStudent[a] = s) implies 
+		(no i: Interview | getStudent[i.application] = s)
+}
+
+/***********************************************COMMANDS**********************************************/
 
 run studentApplies1 for 5
 run studentApplies2 for 5 but 10 steps
 run studentApplies3 for 5 but 10 steps
 run world for 5 but 10 steps
 
-check hiredWithCV for 5
 check hiredOnlyIfInterviewed for 5
+check noApplicationImpliesNoInterview for 5
