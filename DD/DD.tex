@@ -2,6 +2,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage [a4paper, left=2.5cm, right=2.5cm] {geometry}
 \usepackage{float}
@@ -35,11 +36,14 @@
 \section{Introduction}
 
 \subsection{Purpose}
+\hspace{-0.8cm}
 The \textbf{Students\&Companies (S\&C)} platform aims to simplify the process of connecting university students with companies offering internships. For students, finding internships that match their skills and career goals can often be challenging, while companies may struggle to identify candidates with the right qualifications.
 
+\hspace{-0.8cm}
 This platform provides students with tools to search for internships, receive personalized recommendations, and manage their applications. At the same time, companies can use it to advertise internships, review student CVs, and organize interviews efficiently. By incorporating advanced recommendation mechanisms, the platform creates a streamlined and mutually beneficial experience for both parties.
 
 \subsection{Scope}
+\hspace{-0.8cm}
 The S\&C platform is designed for two main types of users: students and companies. 
 
 \begin{itemize}
@@ -47,6 +51,7 @@ The S\&C platform is designed for two main types of users: students and companie
     \item \textbf{Companies}: Companies can advertise internships, search for and evaluate student profiles, schedule interviews, and manage the selection process.
 \end{itemize}
 
+\hspace{-0.8cm}
 Additionally, the platform gathers feedback from both students and companies. This feedback is used to enhance the recommendation system and provide insights into the effectiveness of internships, ensuring continuous improvement of the platform.   
 
 \subsection{Definitions, Acronyms, and Abbreviations}
@@ -61,16 +66,19 @@ Additionally, the platform gathers feedback from both students and companies. Th
 \begin{itemize}
     \item \textbf{S\&C}: Students\&Companies platform.
     \item \textbf{CV}: Curriculum Vitae.
+    \item \textbf{RASD}: Requirement Analysis and Specification Document.
+    \item \textbf{DBMS}: DataBase Management System.
+    \item \textbf{API}: Application Programming Interface.
+    \item \textbf{HTTP}: HyperText Transfer Protocol.
+    \item \textbf{HTTPS}: HyperText Transfer Protocol over Secure Socket Layer.
+    \item \textbf{CRUD}: Create, Read, Update, Delete.
 \end{itemize}
 
 \subsubsection{Abbreviations}
 \begin{itemize}
     \item \textbf{G*}: Goals outlined in the Purpose section.
-    \item \textbf{WP*}: World phenomena describing actions by individual stakeholders.
-    \item \textbf{SP*}: Shared phenomena describing interactions mediated by the system.
     \item \textbf{R*}: Functional requirements.
     \item \textbf{UC*}: Use cases.
-    %INSERIRE GLI ALTRI
 \end{itemize}
 
 \subsection{Revision History}
@@ -88,16 +96,920 @@ Additionally, the platform gathers feedback from both students and companies. Th
 The remainder of this document is organized as follows:
 \begin{itemize}
     \item \textbf{Section 1 - Introduction}: Covers the purpose, scope, and definitions of the project.
-    \item \textbf{Section 2 - Architectural Design}: %INSERIRE DESCRIZIONE
-    \item \textbf{Section 3 - User Interface Design}: %INSERIRE DESCRIZIONE
-    \item \textbf{Section 4 - Requirements Traceability}: %INSERIRE DESCRIZIONE
-    \item \textbf{Section 5 - Implementation, Integration and Test Plan }: %INSERIRE DESCRIZIONE
+    \item \textbf{Section 2 - Architectural Design}: Describes at different levels of granularity how the architecture is designed.
+    \item \textbf{Section 3 - User Interface Design}: Shows the wire frame that constitutes the user interface.
+    \item \textbf{Section 4 - Requirements Traceability}: Shows how the requirements defined in the RASD are fulfilled thanks to the interaction with the components.
+    \item \textbf{Section 5 - Implementation, Integration and Test Plan }: Describe the implementation, integration and testing details.
     \item \textbf{Section 6 - Effort Spent}: Shows the time spent by each group member to realize this document.
-    \item \textbf{Section 7 - References}: Contains references to any document or software used during the realization of this document
+    \item \textbf{Section 7 - References}: Contains references to any document or software used during the realization of this document.
 \end{itemize}
 
 \newpage
 
+\section{Architectural Design}
+
+\subsection{Overview}
+
+    \hspace{-0.8cm}
+    In this section are briefly presented the main design choices of the S\&C platform architecture.
+
+    \begin{itemize}
+        \item \textbf{Microservices}: This architectural style divides the functionalities of the system in smaller services. This improves the scalability, maintainability and availability of the system, also reducing dependencies between modules. A detailed description of such microservices will be provided in the following sections.
+        \item \textbf{REST API}: This is the main API which enables the communication between different components, for example between server side and client side, and between different microservices. Each microservice will expose its operation through the \textit{REST API}.
+    \end{itemize}
+
+    The following diagram shows an high level view of the system architecture.
+
+    \begin{figure}[H]
+        \centering
+        \hspace*{-1cm}
+        \includegraphics[scale = 0.5]{DD/dd_diagrams/highlevel_v_1_0.png}
+        \caption{Overall Architecture}
+        \label{fig:overall_architecture_diagram}
+    \end{figure}
+
+\subsection{Component View}
+
+    \hspace{-0.8cm}
+    The following diagram shows the main components of the system and the interfaces through which they communicate.
+    The system is composed of two sides:
+
+    \begin{itemize}
+        \item The \textbf{Client side} is composed of two components, the Student and Company web app.
+        \item The \textbf{Server side} is composed of several components that offer different functionalities. In the following diagram they are represented as standalone, with a brief description in the following part, while, in section \textit{2.3}, it is shown how they are organized in several microservices.
+    \end{itemize}
+
+    \begin{figure}[H]
+        \centering
+        \hspace*{-1.2cm}
+        \includegraphics[scale = 0.5]{DD/dd_diagrams/ComponentDiagram_v_1_3.png}
+        \caption{Component Diagram}
+        \label{fig:component_diagram}
+    \end{figure}
+
+    The main components of the system are:
+    \begin{itemize}
+        \item \textbf{Web App}: The web app (\textless\textless Student \textgreater\textgreater, \textless\textless Company\textgreater\textgreater) represents the way in which the users can interact with the platform.
+        \item \textbf{StudentAuthenticator \& CompanyAuthenticator}: These components handle the authentication process (e.g. login, registration) for, respectively, student and companies.
+        \item \textbf{CompanyProfileManager \& StudentProfileManager}: These components work together with the \textit{Authenticators} components in the authentication process. They directly interact with the student or company DBMS to check eventual inconsistencies in the credentials, such as wrong password or already existing username. Moreover these components are useful to retrieve the students or companies information, which can be used, for example, to schedule an interview, or to notify a student about an internship he could apply to.
+        \item \textbf{CVManager}: This component is used by the student to upload or modify his CV.
+        \item \textbf{InternshipManager}: This component is used by the company to manage its internships.
+        \item \textbf{SearchEngine}: This component is used by the student to search for internships. This engine uses the information it retrieves from the \textit{InternshipManager} to find the proper internships according to the constraints set by the student.
+        \item \textbf{ApplicationManager}: This component is used by both the student and the company. The student can apply to an internship and view the state of his application. The company, on the other hand, can assess the applications it receives.
+        \item \textbf{InterviewManager}: This component is used by both the student and the company. The company can schedule an interview, send the questionnaires to the student and check his answers. On the other hand, the student receives the questionnaires and answers them.
+        \item \textbf{FeedbackManager}: This component is used to ask for feedback to both the company and the student. This feedback will be used by the \textit{Recommendation System} to search for any suitable match between students and internships.
+        \item \textbf{RecommendationSystem}: This component periodically retrieves all the information about internship, CVs and feedback, and uses them to search for suitable matches between a student and an internship.
+        \item \textbf{NotificationManager}: This component is responsible for handling the platform notifications both for students and companies, such as the assessment of a student's application or a found match between a student and a company.
+        \item \textbf{DBMS}: The DBMS components are used to store the state of the system and its evolution, also allowing the user to retrieve information received while disconnected.
+    \end{itemize}
+
+\subsection{Deployment View}
+
+    \begin{figure}[H]
+        \centering
+        \hspace*{-1cm}
+        \includegraphics[scale = 0.5]{DD/dd_diagrams/DeploymentDiagram_v_1_1.png}
+        \caption{Component Diagram}
+        \label{fig:deployment_diagram}
+    \end{figure}
+
+    \hspace{-0.8cm}
+    \textbf{Connection to the server} \\
+    Student and companies can access the S\&C platform through their smartphones or computers thanks to the web app.
+    Before arriving at the application server, the request must pass through a \textit{load balancer} and an \textit{API gateway}.
+    The first redirects the request to one of the instances of the gateway, which main characteristics are:
+    \begin{itemize}
+        \item \textbf{Routing}: Each request is redirected to the right service, chosen based on the destination address of the request.
+        \item \textbf{Security}: The client speaks only to the gateway, which implements the authentication and authorization mechanism.
+    \end{itemize}
+    \vspace{0.5cm}
+
+    \hspace{-0.8cm}
+    \textbf{Microservices} \\
+    Figure \ref{fig:deployment_diagram} shows how the system is divided into 9 different services.
+    Each of them has its own personal database, this may cause higher coupling, in fact, services need to interact with each other, but, on the other hand, only one entity can modify each database and, if a DBMS interface needs to undergo any change, only a small number of components would be modified. \\
+    The microservice architectural style choice guarantees to improve the scalability, maintainability, and ease of deployment of the system.
+
+\subsection{Component Interface}
+    \textbf{StudentAuthenticationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|studentRegister(mail: String, password: String): void|
+            \item \verb|studentLogin(mail: String, password: String): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CompanyAuthenticationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|companyRegister(mail: String, password: String): void|
+            \item \verb|companyLogin(mail: String, password: String): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{StudentValidationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|studentRegister(mail: String, password: String): void|
+            \item \verb|validateStudent(mail: String, password: String): Student|
+            \item \verb|changeHiringState(hiring: String): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CompanyValidationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|companyRegistration(mail: String, password: String): void|
+            \item \verb|validateCompany(mail: String, password: String): Company|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CVManagementI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|writeCurriculum(): CurriculumForm|
+            \item \verb|uploadCV(student: Student, cv: CV): void|
+            \item \verb|getStudentCV(student: Student): CV|
+            \item \verb|modifyStudentCV(student: Student, cv: CV): void|
+            \item \verb|getAllCVs(): List[CV]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{GetStudentI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getStudent(cv)|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{InternshipI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|writeInternship(): void|
+            \item \verb|advertiseInternship(company: Company, internship: Internship): void|
+            \item \verb|getCompanyInternships(company: Company): List[Internship]|
+            \item \verb|modifyInternship(company: Company, internship: Internship): void|
+            \item \verb|removeInternship(company: Company, internship: Internship): void|
+            \item \verb|getFilteredInternships(filters: List[Filter]): List[Internship]|
+            \item \verb|getAllInternships(): List[Internship]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{GetCompanyI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getCompany(internship: Internship): Company|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{SearchI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|searchInternships(filters: List[filter]): List[Internship]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{StudentApplicationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|submitApplication(application): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CompanyApplicationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|sendEvaluation(student: Student): void|
+            \item \verb|changeApplicationState(state: String): void|
+        \end{footnotesize}  
+    \end{itemize}
+
+    \textbf{StudentInterviewI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|sendAnswers(company: Company): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CompanyInterviewI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|scheduleInterview(student: Student, company: Company): void|
+            \item \verb|sendQuestionnaire(student: Student): void|
+            \item \verb|sendEvaluation(student: Student): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{FeedbackI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|sendFeedback(feedback: Feedback): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{GetFeedbackI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getSFeedback(cv: CV): List[Feedback]|
+            \item \verb|getIFeedback(internship: Internship): List[Internship]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{NotificationI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|notifyCompany(student: Student): void|
+            \item \verb|notifyStudent(company: Company): void|
+            \item \verb|notifyCompanyApplication(application: Application, company: Company): void|
+            \item \verb|notifyEvaluation(student: Student): void|
+            \item \verb|notifyInterview(student: Student): void|
+            \item \verb|notifyQuestionnaire(student: Student): void|
+            \item \verb|notifyAnswers(company: Company): void|
+            \item \verb|notifyHiring(student: Student): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{StudentDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getStudent(mail: String): Student|
+            \item \verb|pushStudent(mail: String, password: String): void|
+            \item \verb|changeState(hired: String): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CompanyDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getCompany(mail: String): Company|
+            \item \verb|pushCompany(mail: String, password: String)|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{CurriculaDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|pushCV(student: Student, cv: CV): void|
+            \item \verb|getCV(student: Student): CV|
+            \item \verb|modifyCV(student: Student, cv: CV): void|
+            \item \verb|getAllCVs(): List[CV]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{InternshipDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|addInternship(company: Company, internship: Internship): void|
+            \item \verb|getInternships(company: Company): List[Internship]|
+            \item \verb|modifyInternship(company: Company, internship: Internship): void|
+            \item \verb|deleteInternship(company: Company, internship: Internship): void|
+            \item \verb|filterInternships(filters: List[Filter]): List[Internship]|
+            \item \verb|getAllInternships(): List[Internship]|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{ApplicationDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|pushApplication(application)|
+            \item \verb|changeState(state: String): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{InterviewDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|pushInterview(interview: Interview): void|
+            \item \verb|closeInternship(): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{FeedbackDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|getSFeedback(cv: CV): List[CV]|
+            \item \verb|getIFeedback(internship: Internship): List[Feedback]|
+            \item \verb|pushFeedback(feedback: Feedback): void|
+        \end{footnotesize}
+    \end{itemize}
+
+    \textbf{NotificationDBMSI}
+    \begin{itemize}
+        \begin{footnotesize}
+            \item \verb|storeNotification(): void|
+        \end{footnotesize}
+    \end{itemize}
+
+\subsection{Runtime View}
+
+    \hspace{-0.8cm}
+    This section further analyzes the sequence diagrams presented in chapter 3.2.2 of the RASD document, underlining the interactions between the components of the system. \\
+
+    \textbf{[UC1] - Sign-Up}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramCompanySignUp_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Company sign-up sequence diagram}
+        \label{fig:company_sign_up_sequence_diagram}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramStudentSignUp_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Student sign-up sequence diagram}
+        \label{fig:student_sign_up_sequence_diagram}
+    \end{figure}
+    
+    \textbf{[UC2] - Log-in}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramCompanyLogin_v_1_0.png}
+        \vspace{-0.8cm}
+        \caption{Company log-in sequence diagram}
+        \label{fig:company_log_in_sequence_diagram}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramStudentLogin_v_1_0.png}
+        \vspace{-0.8cm}
+        \caption{Student log-in sequence diagram}
+        \label{fig:student_log_in_sequence_diagram}
+    \end{figure}
+    
+    \textbf{[UC3] - Upload CV}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramUploadCV_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Upload CV sequence diagram}
+        \label{fig:upload_cv_sequence_diagram}
+    \end{figure}
+
+    \newpage
+    
+    \textbf{[UC4] - Modify CV}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramModifyCV_1_0.png}
+        \vspace{-0.5cm}
+        \caption{Modify CV sequence diagram}
+        \label{fig:modify_cv_sequence_diagram}
+    \end{figure}
+    
+    \textbf{[UC5] - Advertise internship}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramAdvertiseInternship_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Advertise internship sequence diagram}
+        \label{fig:advertise_internship_sequence_diagram}
+    \end{figure}
+
+    \newpage
+    
+    \textbf{[UC6] - Modify internship advertise}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramModifyInternship_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Modify internship sequence diagram}
+        \label{fig:modify_internship_sequence_diagram}
+    \end{figure}
+    
+    \textbf{[UC7] - Delete internship}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramDeleteInternship_v_1_0.png}
+        \vspace{-0.3cm}
+        \caption{Delete internship sequence diagram}
+        \label{fig:delete_internship_sequence_diagram}
+    \end{figure}
+
+    \newpage
+    
+    \textbf{[UC8] - Search internship}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramSearchInternship_v_1_0.png}
+        \vspace{-0.8cm}
+        \caption{Search internship sequence diagram}
+        \label{fig:search_internship_sequence_diagram}
+    \end{figure}
+
+    This diagram shows the flow of events the student has to follow when he searches for certain internships. Firstly he chooses the filters he wants to apply to the research, such as the type of project proposed, the minimum duration of the internship or he can add some keywords to his research. Secondly the search manager queries the internship manager which will retrieve from its database all the internships that satisfy the filters. \\
+    
+    \textbf{[UC9] - Notify student about recommended internship}
+
+    \begin{figure}[H]
+        \centering
+        \hspace*{-2cm}
+        \includegraphics[scale = 0.35]{DD/dd_sequence_diagram/SequenceDiagramNotifyStudent_v_1_0.png}
+        \vspace{-1cm}
+        \caption{Notify student sequence diagram}
+        \label{fig:notify_student_sequence_diagram}
+    \end{figure}
+
+    This diagram shows how the recommendation system finds suitable matches between student and internships. When a CV is uploaded or modified the recommendation system is triggered, starting to collect all internship details and, for each one of them it also collects all the available feedback. At the end of this first process, the recommendation system searches for any match between the CV and some of the internships. In the end, for any found match, the student is notified about the match and the company providing that internship. \\
+    
+    \textbf{[UC10] - Notify company about recommended student}
+    
+    \begin{figure}[H]
+        \centering
+        \hspace*{-2cm}
+        \includegraphics[scale = 0.35]{DD/dd_sequence_diagram/SequenceDiagramNotifyCompany_v_1_0.png}
+        \vspace{-1cm}
+        \caption{Notify company sequence diagram}
+        \label{fig:notify_company_sequence_diagram}
+    \end{figure}
+
+    This diagram shows how the recommendation system finds suitable matches between student and internships. When an internship is uploaded or modified the recommendation system is triggered, starting to collect all CVs details and, for each one of them it also collects all the available feedback. At the end of this first process, the recommendation system searches for any match between the internship and some of the CVs. In the end, for any found match, the company is notified about the match and the student owner of that CV . \\
+    
+    \textbf{[UC11] - Submit application}
+
+    \begin{figure}[H]
+        \centering
+        \hspace*{-1cm}
+        \includegraphics[scale = 0.6]{DD/dd_sequence_diagram/SequenceDiagramSubmitApplication_v_1_0.png}
+        \vspace{-1cm}
+        \caption{Submit application sequence diagram}
+        \label{fig:submit_application_sequence_diagram}
+    \end{figure}
+
+    This diagram shows the actions the system follows when a new application is submitted. When the student finds a suitable internship he writes the application and submits it to the S\&C platform. The application manager is responsible for taking the application, storing it in its database and set the application state to \textit{submitted}. Lastly the company offering the internship is notified about the submitted application. \\
+    
+    \textbf{[UC12] - Assess application}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.4]{DD/dd_sequence_diagram/SequenceDiagramAssessApplication_v_1_0.png}
+        \vspace{-0.5cm}
+        \caption{Assess application sequence diagram}
+        \label{fig:assess_application_sequence_diagram}
+    \end{figure}
+
+    This diagram shows the evaluation process done by the company through the S\&C platform. When the company receives a new application, it changes the application state to \textit{under review}, then it starts evaluating it. At the end of the evaluation, the result is sent to the student and then the application state is set to \textit{closed}. If the application is positively evaluated, then an interview between the student and the company is scheduled. \\
+    
+    \textbf{[UC13] - Collect feedback}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.7]{DD/dd_sequence_diagram/SequenceDiagramCollectFeedback_v_1_0.png}
+        \vspace{-0.6cm}
+        \caption{Collect feedback sequence diagram}
+        \label{fig:collect_feedback_sequence_diagram}
+    \end{figure}
+    
+    \textbf{[UC14] - Selection process}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale = 0.4]{DD/dd_sequence_diagram/SequenceDiagramSelectionProcess_v_1_0.png}
+        \vspace{-0.5cm}
+        \caption{Selection process sequence diagram}
+        \label{fig:selection_process_sequence_diagra}
+    \end{figure}
+
+    This diagram shows the selection process between a company and the student applying to one of its internships. Firstly the company interview the student through structured questionnaires, waits for his answers and then evaluate them. This process repeats until the company has not taken a decision. After the company has decided, the student is notified about the result and the interview is closed. In the end, the platform registers if the student has been hired.
+
+\subsection{Selected Architectural Styles and Patterns}
+
+\subsubsection{Architectural Styles}
+    \hspace{-0.8cm}
+    The microservices architecture is designed to improve the maintainability, resilience, availability, and scalability of the system through selective replication. In addition, it allows multiple teams to work on different microservices in parallel. \\
+    The use of a \textit{REST API} facilitates communication between various services, which requires the use of HTTPS and standard HTTP methods to perform CRUD operations such as GET, POST, PUT, and DELETE
+
+\subsubsection{Security Pattern}
+    \hspace{-0.8cm}
+    The use of an \textit{API Gateway} is a key element for both routing and security purposes. This gateway acts as an intermediary between the client and the server side of the application, meaning that the client communicates exclusively with the gateway, which is responsible for mapping requests to the appropriate microservice. Although the API Gateway could represent a single point of failure, this limitation can be mitigated by deploying multiple replicas of the component and implementing a load balancer to distribute incoming requests.
+
+\newpage
+
+\section{User Interface Design}
+\hspace{-0.8cm}
+The Students\&Companies platform provides an intuitive and user-friendly interface designed to meet the needs of its two primary stakeholders: students and companies. In the following, we illustrate key aspects of the interface design for different user roles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/1.png}
+    \caption{Login Page}
+    \label{fig:login_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/2.png}
+    \caption{CV Upload Page}
+    \label{fig:cv_upload_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/3.png}
+    \caption{Student Home Page}
+    \label{fig:student_dashboard}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/4.png}
+    \caption{Recommended Stages Page}
+    \label{fig:student_home_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/5.png}
+    \caption{Notification Center:}
+    \label{fig:recommended_stages}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/6.png}
+    \caption{Company Home Page:}
+    \label{fig:notification_center}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/7.png}
+    \caption{Candidate Management Page:}
+    \label{fig:company_home_page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/8.png}
+    \caption{Recommended Students Page:}
+    \label{fig:candidate_management}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/9.png}
+    \caption{New Stage Creation Page}
+    \label{fig:recommended_students}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/10.png}
+    \caption{Company Notification Page}
+    \label{fig:new_stage_creation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/11.png}
+    \caption{Rating Student for Internship Feedback}
+    \label{fig:rating_student}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/12.png}
+    \caption{Rating Internship Feedback}
+    \label{fig:rating_internship}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/13.png}
+    \caption{Scheduling Interview Page}
+    \label{fig:scheduling_interview}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/design png/14.png}
+    \caption{Scheduled Interviews Overview}
+    \label{fig:scheduled_interviews}
+\end{figure}
+
+
+
+\newpage
+\section{Requirements Traceability}
+\textbf{G1.}
+Allows students and companies to register and log in, so that students can search and apply for an internship, while companies can evaluate proposals and interview students.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Requirement ID} & \textbf{Requirement Description} & \textbf{Components Mapped} \\
+        \hline
+        R1 & The system allows users to register to the platform. & StudentAuthenticator, CompanyAuthenticator, StudentProfileManager, CompanyProfileManager, DBMS \\
+        \hline
+        R2 & The system allows users to log in to the platform through their credentials. & StudentAuthenticator, CompanyAuthenticator, StudentProfileManager, CompanyProfileManager, DBMS \\
+        \hline
+    \end{tabularx}
+    \caption{Requirements traceability for Goal 1}
+    \label{tab:goal1}
+\end{table}
+
+\textbf{G2.}
+Helps students and companies manage, respectively, resumes and internships.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Requirement ID} & \textbf{Requirement Description} & \textbf{Components Mapped} \\
+        \hline
+        R3 & The system permits students to upload their CVs. & CVManager, StudentProfileManager, DBMS \\
+        \hline
+        R4 & The system permits students to modify their CVs. & CVManager, StudentProfileManager, DBMS \\
+        \hline
+        R5 & The system permits companies to publish their internship proposals. & InternshipManager, CompanyProfileManager, DBMS \\
+        \hline
+        R6 & The system permits companies to modify their internship proposals. & InternshipManager, CompanyProfileManager, DBMS \\
+        \hline
+        R7 & The system permits companies to delete their internship proposals. & InternshipManager, CompanyProfileManager, DBMS \\
+        \hline
+    \end{tabularx}
+    \caption{Requirements traceability for Goal 2}
+    \label{tab:goal2}
+\end{table}
+\newpage
+\textbf{G3.}
+Facilitates the matching process between students and companies, assisting them in the search and apply processes.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Requirement ID} & \textbf{Requirement Description} & \textbf{Components Mapped} \\
+        \hline
+        R8 & The system permits students to proactively search for internships. & SearchEngine, InternshipManager, DBMS \\
+        \hline
+        R9 & The system shows students only the internship proposals. & SearchEngine, InternshipManager, DBMS \\
+        \hline
+        R10 & The system shows companies only the students' resumes. & SearchEngine, CVManager, DBMS \\
+        \hline
+        R11 & If a student with a CV compatible with company requests is available, the system notifies the company about this student. & NotificationManager, RecommendationSystem, StudentProfileManager, CompanyProfileManager, DBMS \\
+        \hline
+        R12 & If an internship matching the student's interests is available, the system notifies the student about this internship. & NotificationManager, RecommendationSystem, InternshipManager, DBMS \\
+        \hline
+    \end{tabularx}
+    \caption{Requirements traceability for Goal 3}
+    \label{tab:goal3}
+\end{table}
+
+\textbf{G4.}
+Supports companies during the selection process, including interview management.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Requirement ID} & \textbf{Requirement Description} & \textbf{Components Mapped} \\
+        \hline
+        R17 & If the company and the student have been put in contact, then the system starts the selection process. & InterviewManager, NotificationManager, DBMS \\
+        \hline
+        R18 & The system helps the company manage the interview. & InterviewManager, NotificationManager, DBMS \\
+        \hline
+        R19 & If the interview went well, the system finalizes the selection. & InterviewManager, DBMS \\
+        \hline
+    \end{tabularx}
+    \caption{Requirements traceability for Goal 4}
+    \label{tab:goal4}
+\end{table}
+\newpage
+\textbf{G5.}
+Gathers feedback from students and companies to improve the recommendation system and internship quality.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Requirement ID} & \textbf{Requirement Description} & \textbf{Components Mapped} \\
+        \hline
+        R20 & The system collects feedback from the users. & FeedbackManager, DBMS \\
+        \hline
+        R21 & The system uses collected feedback to feed statistical analysis applied during recommendation. & FeedbackManager, RecommendationSystem, DBMS \\
+        \hline
+    \end{tabularx}
+    \caption{Requirements traceability for Goal 5}
+    \label{tab:goal5}
+\end{table}
+
+
+
+
+\newpage
+\section{Implementation, Integration and Test Plan}
+\hspace{-0.8cm}
+This chapter explains how to implement, integrate, and test the system designed in this
+document. As already stated and described in the previous sections of this document, the
+architectural style employed for the development of the S\&C system is represented by the
+microservices. Among the other advantages of this design decision, a key aspect of this choice is that it allows the system to be
+developed by several different sets working on different microservices in parallel. To
+illustrate the test plan and the integration, we will refer to the respective teams as Set A, Set B, Set C, Set D, Set E, Set F, Set G. Following the just mentioned details, it can be
+inferred that the employed approach is a parallel bottom-up approach, in which each team
+focuses on its own microservices and, after their implementation, their integration is tested.
+\newpage
+\textbf{Set A, Set B}
+\\
+\\
+Set A and B are responsible for the development of the authentication microservices.
+Consequently, the initial step involves configuring and testing the Student DBMS and Company
+DBMS. After that, the development of the Student Profile Manager and the Company Profile Manager
+components follows.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm, height=10cm]{DD/dd_implementationImages/profileManager.png}
+    \caption{Authentication Microservice Test Plan[1]}
+    \label{fig:5.1}
+\end{figure}
+At this point unit tests regarding the developed components should be produced. To achieve
+so, two drivers are required, representing the “Student Authentication” and the “Company
+Authentication” components which use the exposed interfaces of the just developed
+components. After that, what are now the drivers can be implemented and integrated as
+follows.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm, height=15cm]{DD/dd_implementationImages/authenticator.png}
+    \caption{Authentication Microservice Test Plan[2]}
+    \label{fig:5.2}
+\end{figure}
+
+At this point, after the integration of the newly developed components, the full
+authentication process can be tested.
+Once all the single microservices have been developed and tested, their integration shall
+follow.
+\newpage
+\textbf{Set C}
+\\
+\\
+Set C is responsible for the development of the notification microservices. Consequently, the
+initial step involves configuring and testing the Notification DBMS. After that the
+development of the Notification Manager component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=7cm]{DD/dd_implementationImages/notification.png}
+    \caption{Notification Microservice Test Plan}
+    \label{fig:5.3}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set D}
+\\
+\\
+Set D is responsible for the development of the internship microservices. Consequently, the
+initial step involves configuring and testing the Internship DBMS. After that the
+development of the Internship Manager component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=7cm]{DD/dd_implementationImages/internship.png}
+    \caption{Internship Microservice Test Plan}
+    \label{fig:5.4}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set E}
+\\
+\\
+Set E is responsible for the development of the application microservices. Consequently, the
+initial step involves configuring and testing the Application DBMS. After that the
+development of the Application Manager component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=7cm]{DD/dd_implementationImages/application.png}
+    \caption{Application Microservice Test Plan}
+    \label{fig:5.5}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set F}
+\\
+\\
+Set F is responsible for the development of the interview microservices. Consequently, the
+initial step involves configuring and testing the Interview DBMS. After that the
+development of the Interview Manager component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=7cm]{DD/dd_implementationImages/interview.png}
+    \caption{Interview Microservice Test Plan}
+    \label{fig:5.6}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set G}
+\\
+\\
+Set G is responsible for the development of the curricula microservices. Consequently, the
+initial step involves configuring and testing the Curricula DBMS. After that the
+development of the Curricula Manager component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=7cm]{DD/dd_implementationImages/curricula.png}
+    \caption{Curricula Microservice Test Plan}
+    \label{fig:5.7}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set H}
+\\
+\\
+Set H is responsible for the development of the recommendation and feedback microservices. Consequently, the
+initial step involves configuring and testing the Feedback DBMS. After that the
+development of the Recommendation System and Feedback System component follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm, height=8cm]{DD/dd_implementationImages/A.png}
+    \caption{Recommendation and Feedback Microservice Test Plan}
+    \label{fig:5.8}
+\end{figure}
+At this point unit tests regarding the developed components should be produced.
+\newpage
+\textbf{Set A, Set B, Set G}
+\\
+\\
+The authentication microservice will be integrated with the curricula microservice as follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm, height=10cm]{DD/dd_implementationImages/login.png}
+    \caption{Authentication and Curricula Microservices Integration Plan}
+    \label{fig:5.9}
+\end{figure}
+At this point, the whole subsystem should be tested: the entire authentication process and curricula uploading can be tested indeed.
+
+\newpage
+\textbf{Set D, Set E}
+\\
+\\
+The internship microservice will be integrated with the application microservice as follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=10cm]{DD/dd_implementationImages/combo1.png}
+    \caption{Internship and Application Microservices Integration Plan}
+    \label{fig:5.10}
+\end{figure}
+At this point, the whole subsystem should be tested: the entire Internship and Application process can be tested indeed.
+\newpage
+\textbf{Set D, Set E, Set F}
+\\
+\\
+The internship/application microservice will be integrated with the interview microservice as follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=10cm]{DD/dd_implementationImages/combo2.png}
+    \caption{Internship/Application and Interview Microservices Integration Plan}
+    \label{fig:5.11}
+\end{figure}
+At this point, the whole subsystem should be tested: the entire Internship/Application and Interview process can be tested indeed.
+\newpage
+\newpage
+\textbf{Set C, Set D, Set E, Set F}
+\\
+\\
+The internship/application/interview microservice will be integrated with the notification microservice as follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=10cm]{DD/dd_implementationImages/combo3.png}
+    \caption{Internship/Application/Interview and Notification Microservices Integration Plan}
+    \label{fig:5.12}
+\end{figure}
+At this point, the whole subsystem should be tested: the entire Internship/Application/Interview and Notification process can be tested indeed.
+\newpage
+\textbf{Set C, Set D, Set E, Set F, Set H}
+\\
+\\
+The internship/application/interview/notification microservice will be integrated with the recommendation and feedback microservice as follows
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm, height=10cm]{DD/dd_implementationImages/AA.png}
+    \caption{Internship/Application/Interview/
+    Notification/Recommendation and Feedback Microservices Integration Plan}
+    \label{fig:5.13}
+\end{figure}
+
+\newpage
+
+
+At this point, the whole subsystem should be tested: the entire Internship, Application, Interview, Notification, Recommendation and Feedback process can be tested. This includes verifying the data flow between components, ensuring proper interactions with the database, and confirming system notifications and recommendations.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{DD/dd_implementationImages/CompleteSystem.png}
+    \caption{Integration Testing of Internship, Application, Interview, Notification, Recommendation and Feedback Processes}
+    \label{fig:integration_testing}
+\end{figure}
+
+\newpage
 \section{Effort Spent}
 In this section there's an overview of the time effort spent for each group member to write and revise each chapter of this document.
     \begin{itemize}
@@ -108,15 +1020,16 @@ In this section there's an overview of the time effort spent for each group memb
                     \hline
                     \textbf{Chapter} & \textbf{Effort (in hours)} \\
                     \hline
-                    Chapter 1 &  \\
+                    Chapter 1 &  1\\
                     \hline
-                    Chapter 2 &  \\
+                    Chapter 2 &  5\\
                     \hline
-                    Chapter 3 &  \\
+                    Chapter 3 &  7\\
                     \hline
-                    Chapter 4 &  \\
+                    Chapter 4 &  5\\
                     \hline
-                    Chapter 5 & \\
+                    Chapter 5 & 11\\
+                    \hline
                 \end{tabular}
             \end{table} 
             
@@ -127,15 +1040,16 @@ In this section there's an overview of the time effort spent for each group memb
                     \hline
                     \textbf{Chapter} & \textbf{Effort (in hours)} \\
                     \hline
-                    Chapter 1 &  4\\
+                    Chapter 1 &  1\\
                     \hline
-                    Chapter 2 &  3\\
+                    Chapter 2 &  20\\
                     \hline
-                    Chapter 3 &  20\\
+                    Chapter 3 &  2\\
                     \hline
-                    Chapter 4 &  \\
+                    Chapter 4 &  1\\
                     \hline
-                    Chapter 5 & \\
+                    Chapter 5 &  2\\
+                    \hline
                 \end{tabular}
             \end{table}
     \end{itemize}
@@ -149,8 +1063,8 @@ In this section there's an overview of the time effort spent for each group memb
 \subsection{Used Tools}
     \begin{itemize}
         \item Writing and Drafting the document: Overleaf.
-        \item Diagrams drawing: Draw.io.
-        \item Mockups mading: %INSERIRE PROGRAMMA.
+        \item Diagrams drawing: Draw.io \& Visual Paradigm.
+        \item Mockups mading: Canva.
         \item Versioning: Github.
     \end{itemize}
 
