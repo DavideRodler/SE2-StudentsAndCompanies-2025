@@ -57,6 +57,8 @@ A platform designed to connect university students with companies offering inter
 - **Alloy Analyzer** — formal modeling and verification
 - **UML** — system modeling (use case, class, sequence, state, component, deployment)
 
+> 🏆 **Final Grade: 16/16**
+
 ## License
 
 This project was developed for the Software Engineering 2 course at Politecnico di Milano.
